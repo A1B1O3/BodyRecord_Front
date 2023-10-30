@@ -16,6 +16,7 @@ const NaverLoginBtn = styled.button`
 	border-radius: 9px;
     border:none;
 	margin-bottom:50px;
+	margin-top:300px;
 `
 
 const NaverIcon = styled.div`

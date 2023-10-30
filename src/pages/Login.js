@@ -47,6 +47,6 @@ justify-content:center;
 const BodyRecord = styled.div`
 padding-bottom:500px;
 height:80px;
-background-color:yellw;
+background-color:yellow;
 `
 export default Login;
