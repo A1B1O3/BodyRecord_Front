@@ -1,0 +1,74 @@
+.record-exercise {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .header .fa-arrow-left {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .save-button {
+    background: purple;
+    color: white;
+    border: 2px solid purple;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .purple-button {
+    background: white;
+    color: purple;
+    border: 2px solid purple;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 10px;
+  }
+  
+  .purple-button.active {
+    background: purple;
+    color: white;
+  }
+  
+  .record-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .details-section {
+    margin: 10px 0;
+  }
+  
+  input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    font-size: 18px;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .button-section {
+    text-align: center;
+    margin-top: 20px;
+  }
+  

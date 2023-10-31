@@ -1,0 +1,104 @@
+.exercise-record-container {
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+hr {
+    border: 0.5px solid lightgray;
+    margin: 20px 0;
+}
+
+.bmi-changes-section {
+    margin: 20px 0;
+    background-color: black;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+.record-exercise-button {
+    display: block;
+    width: 300px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: purple;
+    color: white;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.react-datepicker__day {
+    border-radius: 50%;
+    color: black;
+    background-color: white;
+    margin: 0.25rem;
+    line-height: 2rem;
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.react-datepicker {
+    margin: 0 auto;
+}
+
+.react-datepicker__current-month {
+    font-size: 1.5em;
+    padding: 1em;
+}
+
+.react-datepicker__day-name {
+    color: black;
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.react-datepicker__separator {
+    display: none;
+}
+
+.react-datepicker__navigation {
+    top: 20px;
+}
+
+.react-datepicker__header {
+    background-color: white;
+    border: none;
+}
+
+.month-indicator {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.bmi-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    margin: 20px auto;
+}
+
+.bmi-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 1;
+    text-align: center;
+    font-size: 20px;
+}

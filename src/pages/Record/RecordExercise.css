@@ -1,0 +1,156 @@
+.record-exercise {
+  width: 100%;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 10px;
+}
+
+.record-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.record-button.selected {
+  border: 2px solid purple;
+  border-radius: 5px;
+}
+
+.input-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  text-align: center;
+}
+
+label {
+  font-size: 18px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.exercise-name-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.exercise-name-input input[type="text"] {
+  font-size: 18px;
+  padding: 5px;
+  flex: 1;
+  text-align: center;
+}
+
+.exercise-name-input .fa-trash {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.sets {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.sets span {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.sets input[type="text"] {
+  font-size: 18px;
+  padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.add-set, .remove-set {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.horizontal-fields {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.upload-share-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.upload-button {
+  width: 50px;
+  height: 50px;
+  background-color: lightgray;
+  border-radius: 50%;
+}
+
+.share-button {
+  background: purple;
+  color: white;
+  border: 2px solid purple;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.exercise-time {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.exercise-time input[type="number"] {
+  font-size: 18px;
+  padding: 5px;
+  width: 60px;
+  margin-right: 10px;
+}
+
+.upload-button {
+  width: 50px;
+  height: 50px;
+  background-color: lightgray;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-button .fa-image {
+  font-size: 25px;
+}
