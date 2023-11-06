@@ -6,6 +6,9 @@ import Main from './pages/Main';
 import RecordMain from './pages/Record/RecordMain';
 import RecordExercise from './pages/Record/RecordExercise';
 import RecordBody from './pages/Record/RecordBody';
+import logo from "./logo.svg";
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import DatePicker from 'react-modern-calendar-datepicker';
 
 function App() {
   return (

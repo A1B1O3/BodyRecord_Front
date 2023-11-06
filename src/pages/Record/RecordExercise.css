@@ -1,5 +1,4 @@
 .record-exercise {
-  width: 100%;
   padding: 20px;
 }
 
@@ -7,36 +6,85 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
+
 }
 
 .back-button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 35px;
   padding: 10px;
+}
+
+.title {
+  font-size: 50px;
+}
+
+.save-button {
+  font-size: 30px;
+}
+
+.record-button, .body-button {
+  width: 200px;
+  height: 60px;
+  background: white;
+  color: purple;
+  border: none;
+  font-size: 25px;
+  font-weight: bolder;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;  
 }
 
 .record-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  padding: 10px;
+  border: 5px solid purple;
+  margin-right: 10px;
 }
 
-.record-button.selected {
-  border: 2px solid purple;
+.body-button {
+  margin-left: 10px;
+}
+
+.number-box {
+  display: inline-block;
+  width: 30px;
+  height: 50px;
+  border: 2px solid #000;
   border-radius: 5px;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
 }
 
 .input-label {
   display: flex;
   flex-direction: column;
+  align-items: left;
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.input-label2 {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 30px;
+}
+
+.number-box {
+  width: 70px;
+  height: 40px;
+  line-height: 30px;
   text-align: center;
+}
+
+.input-field {
+  width: 200px;
+  height: 40px;
 }
 
 label {
@@ -52,43 +100,88 @@ label {
 }
 
 .exercise-name-input input[type="text"] {
-  font-size: 18px;
+  font-size: 30px;
   padding: 5px;
   flex: 1;
   text-align: center;
 }
 
 .exercise-name-input .fa-trash {
-  font-size: 18px;
+  font-size: 30px;
   cursor: pointer;
+  margin-left: 30px;
 }
 
 .sets {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 10px;
+  justify-content: center;
   align-items: center;
+  margin-top: 10px;
 }
 
 .sets span {
-  font-size: 18px;
+  font-size: 30px;
   margin-right: 10px;
 }
 
 .sets input[type="text"] {
-  font-size: 18px;
+  font-size: 30px;
   padding: 5px;
   margin-right: 10px;
   margin-bottom: 10px;
   text-align: center;
 }
 
-.add-set, .remove-set {
-  background: none;
-  border: none;
+.button-section {
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-set-button, .remove-set-button {
+  width: 150px;
+  height: 50px;
+  background-color: white;
+  border-radius: 10%;
   cursor: pointer;
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-set-button {
+  margin-right: 10px;
+}
+
+.remove-set-button {
+  margin-left: 10px;
+}
+
+.exercise-time {
+  display: flex;
+  align-items: center;
+}
+
+.time-inputs input[type="number"] {
+  width: 40px;
+  border: none;
+}
+
+.time-adjust {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.time-text {
+  font-size: 20px;
+  padding: 0 5px;
 }
 
 .horizontal-fields {
@@ -112,45 +205,29 @@ label {
 }
 
 .upload-button {
-  width: 50px;
-  height: 50px;
-  background-color: lightgray;
-  border-radius: 50%;
-}
-
-.share-button {
-  background: purple;
-  color: white;
-  border: 2px solid purple;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.exercise-time {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  font-size: 18px;
-}
-
-.exercise-time input[type="number"] {
-  font-size: 18px;
-  padding: 5px;
-  width: 60px;
-  margin-right: 10px;
-}
-
-.upload-button {
-  width: 50px;
-  height: 50px;
-  background-color: lightgray;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  border-radius: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .upload-button .fa-image {
-  font-size: 25px;
+  font-size: 70px;
+}
+
+.share-button {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-button .fa-share {
+  font-size : 50px;
 }
