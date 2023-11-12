@@ -5,7 +5,17 @@ import './RecordMain.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Line } from 'recharts';
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Line,
+  Scatter,
+  ReferenceLine,
+} from 'recharts';
 
 const RecordMain = () => {
   const navigate = useNavigate();
@@ -34,14 +44,31 @@ const RecordMain = () => {
       <div className="chart" style={{ display: 'flex', justifyContent: 'center' }}>
         <LineChart width={500} height={300} data={chartData}>
           <XAxis dataKey="date" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
+          <YAxis domain={['auto', 'auto']} />
+          <CartesianGrid strokeDasharray="3 3" fill="#000" />
+          <Tooltip labelStyle={{ color: 'white' }} itemStyle={{ color: 'white' }} isAnimationActive={false} />
           <Legend />
-          <Line type="monotone" dataKey="bodyFat" stroke="rgba(75, 192, 192, 1)" tension={0.4} />
+          <Line type="monotone" dataKey="bodyFat" stroke="#4CFF5B" strokeWidth={4} dot={{ r: 6, fill: 'white' }} />
+          <Scatter data={chartData} fill="white">
+            {chartData.map((entry, index) => (
+              <text
+                x={index % 2 === 0 ? 5 : -5}
+                y={index % 2 === 0 ? -5 : 15}
+                dy={-6}
+                fontSize={12}
+                fill="white"
+                textAnchor={index % 2 === 0 ? 'start' : 'end'}
+              >
+                {entry.bodyFat}
+              </text>
+            ))}
+          </Scatter>
+          <ReferenceLine y={23.5} stroke="red" strokeDasharray="3 3" />
         </LineChart>
       </div>
-      <button className="record-exercise-button" onClick={handleRecordClick}>운동 기록하기</button>
+      <button className="record-exercise-button" onClick={handleRecordClick}>
+        운동 기록하기
+      </button>
     </div>
   );
 };

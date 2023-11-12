@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './RecordExercise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -17,6 +17,8 @@ const RecordExercise = () => {
   const [exerciseName, setExerciseName] = useState('');
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const fileInputRef = useRef(null); // 추가: 파일 입력 참조
   const navigate = useNavigate();
 
   const handleSaveClick = () => {
@@ -46,6 +48,22 @@ const RecordExercise = () => {
       setHours(hours + increment);
     } else if (field === 'minutes') {
       setMinutes(minutes + increment);
+    }
+  };
+
+  const handleFileUpload = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileInputChange = (event) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImage(e.target.result);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -143,13 +161,17 @@ const RecordExercise = () => {
 
       <div className="upload-share-buttons">
         <div className="button-container">
-        <span className="picture-text">사진 업로드</span>
-          <button className="upload-button">
+          <span className="picture-text">사진 업로드</span>
+          <input type="file" id="fileInput" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileInputChange} />
+          <label htmlFor="fileInput" className="upload-button">
             <FontAwesomeIcon icon={faImage} />
-          </button>
+            {selectedImage && (
+              <img src={selectedImage} alt="선택한 이미지" className="selected-image" />
+            )}
+          </label>
         </div>
         <div className="button-container">
-        <span className="share-text">공유하기</span>
+          <span className="share-text">공유하기</span>
           <button className="share-button">
             <FontAwesomeIcon icon={faShare} />
           </button>

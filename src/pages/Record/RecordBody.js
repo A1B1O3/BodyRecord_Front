@@ -46,8 +46,8 @@ const RecordBody = () => {
       </div>
       <hr />
       <div className="buttons">
-        <button className="exercise-button" onClick={handleExerciseClick}>운동기록</button>
-        <button className="body-record-button" onClick={handleBodyClick}>신체기록</button>
+        <button className="exercise-button" onClick={handleExerciseClick}>운동 기록</button>
+        <button className="body-record-button" onClick={handleBodyClick}>신체 기록</button>
       </div>
       <hr />
       <div className="record-details">

@@ -36,7 +36,9 @@
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
-  margin-bottom: 10px;  
+  margin-bottom: 10px;
+  text-align: center;
+  margin-left: 430px;
 }
 
 .record-button {
@@ -165,6 +167,7 @@ label {
 .exercise-time {
   display: flex;
   align-items: center;
+  margin-left: 450px;
 }
 
 .time-inputs input[type="number"] {
