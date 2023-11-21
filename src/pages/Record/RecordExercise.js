@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './RecordExercise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,32 +9,46 @@ import {
   faShare,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const RecordExercise = () => {
   const [isExerciseSelected, setExerciseSelected] = useState(true);
   const [sets, setSets] = useState([{ exerciseName: '', weight: '', reps: '' }]);
   const [exerciseName, setExerciseName] = useState('');
-  const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
-  const fileInputRef = useRef(null); // 추가: 파일 입력 참조
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const params = useParams();
+  const { date } = params;
+  const [selectedDate, setSelectedDate] = useState('');
+
+  useEffect(() => {
+    const currentDate = date || new Date().toISOString().split('T')[0];
+    setSelectedDate(currentDate);
+  }, [date]);  
 
   const handleSaveClick = () => {
     navigate('/RecordMain');
   };
 
   const handleAddSet = () => {
-    setSets([...sets, { exerciseName: '', weight: '', reps: '' }]);
+    setSets(sets => [...sets, { exerciseName: '', weight: '', reps: '' }]);
   };
 
   const handleRemoveSet = (index) => {
-    const updatedSets = [...sets];
-    updatedSets.splice(index, 1);
-    setSets(updatedSets);
+    setSets(sets => sets.filter((_, idx) => idx !== index));
   };
 
+  const handleAddExercise = () => {
+    const newExercise = {
+      exerciseName: '',
+      sets: [{ weight: '', reps: '' }]
+    };
+    setSets([...sets, newExercise]);
+  };
+  
   const handleExerciseClick = () => {
     navigate('/RecordExercise');
   };
@@ -43,12 +57,31 @@ const RecordExercise = () => {
     navigate('/RecordBody');
   };
 
-  const adjustTime = (field, increment) => {
-    if (field === 'hours') {
-      setHours(hours + increment);
-    } else if (field === 'minutes') {
-      setMinutes(minutes + increment);
-    }
+  const handleDateSelect = (date) => {
+    const timezoneOffset = date.getTimezoneOffset() * 60000;
+    const localDate = new Date(date.getTime() - timezoneOffset);
+    const dateStr = localDate.toISOString().split('T')[0];
+    setSelectedDate(dateStr);
+  };  
+
+  const adjustMinutes = (increment) => {
+    setMinutes((prevMinutes) => Math.max(0, prevMinutes + increment));
+  };
+
+  const adjustSeconds = (increment) => {
+    setSeconds((prevSeconds) => {
+      let newSeconds = prevSeconds + increment;
+
+      if (newSeconds >= 60) {
+        adjustMinutes(1);
+        newSeconds = 0;
+      } else if (newSeconds < 0) {
+        adjustMinutes(-1);
+        newSeconds = 59;
+      }
+
+      return newSeconds;
+    });
   };
 
   const handleFileUpload = () => {
@@ -70,18 +103,21 @@ const RecordExercise = () => {
   return (
     <div className="record-exercise">
       <div className="header">
-        <button className="back-button">
+        <button className="back-button" onClick={() => navigate(-1)} aria-label="뒤로 가기">
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <span className="title">기록하기</span>
-        <button className="save-button" onClick={handleSaveClick}>저장</button>
+        <button className="save-button" onClick={handleSaveClick} aria-label="저장">저장</button>
       </div>
       <hr />
-      <div className="buttons-center">
+      <div className="buttons">
         <button className="record-button" onClick={handleExerciseClick}>운동 기록</button>
         <button className="body-button" onClick={handleBodyClick}>신체 기록</button>
       </div>
       <hr />
+      <div className="date">
+        <h1>{date}</h1>
+      </div>
       <div className="input-label">
         <label>운동 이름</label>
         <div className="exercise-name-input">
@@ -91,73 +127,56 @@ const RecordExercise = () => {
           <FontAwesomeIcon icon={faTrash} onClick={() => setExerciseName('')} />
         </div>
       </div>
+      <div className="sets-header">
+        <div className="header-label">세트</div>
+        <div className="header-label">무게</div>
+        <div className="header-label">횟수</div>
+      </div>
+
       {sets.map((set, index) => (
-  <div key={index} className="sets">
-    <label>세트</label>
-    <div className="input-label2">
-      <span>
-        <div className="number-box">{index + 1}</div>
-      </span>
-    </div>
-
-    <div className="input-label2">
-      <label>무게</label>
-      <input
-        type="text"
-        value={set.weight}
-        onChange={(e) => {
-          const updatedSets = [...sets];
-          updatedSets[index].weight = e.target.value;
-          setSets(updatedSets);
-        }}
-        className="input-field"
-      />
-    </div>
-
-    <div className="input-label2">
-      <label>횟수</label>
-      <input
-        type="text"
-        value={set.reps}
-        onChange={(e) => {
-          const updatedSets = [...sets];
-          updatedSets[index].reps = e.target.value;
-          setSets(updatedSets);
-        }}
-        className="input-field"
-      />
-    </div>
-  </div>
-))}
+        <div key={index} className="set-inputs">
+          <div className="set-number">{index + 1}</div>
+          <input type="number" className="weight-input" value={set.weight} />
+          <input type="number" className="reps-input" value={set.reps} />
+        </div>
+      ))}
 
       <div className="button-section">
+        <button className="remove-set-button" onClick={() => handleRemoveSet(sets.length - 1)} disabled={sets.length <= 1}>
+          <FontAwesomeIcon icon={faMinus} /> 세트 삭제
+        </button>
         <button className="add-set-button" onClick={handleAddSet}>
           <FontAwesomeIcon icon={faPlus} /> 세트 추가
         </button>
-        {sets.length > 1 && (
-          <button className="remove-set-button" onClick={() => handleRemoveSet(sets.length - 1)}>
-            <FontAwesomeIcon icon={faMinus} /> 세트 삭제
-          </button>
-        )}
       </div>
-      <hr />
-    
-      <div className="exercise-time">
-        <span>운동 시간</span>
-        <div className="time-inputs">
-          <button className="time-adjust" onClick={() => adjustTime('hours', -1)} disabled={hours <= 0}>-</button>
-          <input type="number" value={hours} onChange={(e) => setHours(Math.max(0, parseInt(e.target.value, 10)))} />
-          <span className="time-text">시간</span>
-          <button className="time-adjust" onClick={() => adjustTime('hours', 1)}>+</button>
-        </div>
-        <span className="time-text">:</span>
-        <div className="time-inputs">
-          <button className="time-adjust" onClick={() => adjustTime('minutes', -1)} disabled={minutes <= 0}>-</button>
-          <input type="number" value={minutes} onChange={(e) => setMinutes(Math.max(0, parseInt(e.target.value, 10)))} />
-          <span className="time-text">분</span>
-          <button className="time-adjust" onClick={() => adjustTime('minutes', 1)}>+</button>
-        </div>
+      <div className="exercise-time-container">
+      <hr/>
+      <div className="exercise-add">
+        <button onClick={handleAddExercise}>⊕ 운동 추가</button>
       </div>
+
+      <div className="time-container">
+      <div className="time-block">
+        <button className="time-adjust" onClick={() => adjustMinutes(-1)} disabled={minutes === 0}>
+          <FontAwesomeIcon icon={faMinus} style={{ color: 'black' }} />
+        </button>
+        <span className="time-text">{minutes} 분</span>
+        <button className="time-adjust" onClick={() => adjustMinutes(1)}>
+          <FontAwesomeIcon icon={faPlus} style={{ color: 'black' }} />
+        </button>
+      </div>
+      <span className="time-colon">:</span>
+      <div className="time-block">
+        <button className="time-adjust" onClick={() => adjustSeconds(-1)} disabled={seconds === 0}>
+          <FontAwesomeIcon icon={faMinus} style={{ color: 'black' }} />
+        </button>
+        <span className="time-text">{seconds} 초</span>
+        <button className="time-adjust" onClick={() => adjustSeconds(1)}>
+          <FontAwesomeIcon icon={faPlus} style={{ color: 'black' }} />
+        </button>
+      </div>
+    </div>
+    </div>
 
       <div className="upload-share-buttons">
         <div className="button-container">

@@ -1,0 +1,103 @@
+.bmi-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bolder;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: black;
+  margin-left: 20px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+hr {
+  border-top: 1px solid lightgray;
+  width: 100%;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  padding: 20px;
+  border-radius: 10px;
+  margin: auto;
+  width: fit-content;
+  margin-top: 20px;
+}
+
+.recharts-text {
+  fill: white !important;
+}
+
+.recorded-figures {
+  text-align: center;
+  margin-top: 70px;
+}
+
+.figures-text {
+  color: black;
+  font-weight: bolder;
+  font-size: 30px;
+}
+
+.record-table {
+  width: 60%;
+  margin: 20px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.record-table th {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-weight: bolder;
+  font-size: 18px;
+}
+
+.record-table td {
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+}
+
+.record-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+

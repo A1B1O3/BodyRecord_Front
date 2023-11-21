@@ -1,0 +1,224 @@
+.record-exercise {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 40px;
+}
+
+.title {
+  font-size: 40px;
+}
+
+.save-button {
+  width: 70px;
+  background-color: lightgray;
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.record-button,
+.body-button {
+  width: 200px;
+  height: 60px;
+  background: white;
+  color: #6100FF;
+  border: none;
+  font-size: 25px;
+  font-weight: 1000;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.record-button {
+  border: 5px solid #6100FF;
+  margin-right: 10px;
+}
+
+.record-button:hover,
+.body-button:hover {
+  background-color: #6100FF;
+  color: white;
+}
+
+.input-label {
+  margin-bottom: 20px;
+}
+
+.exercise-date {
+  text-align: center;
+  margin: 0 auto;
+  font-size: 30px;
+  font-weight: bold;
+  color: #6100FF;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.exercise-name-input {
+  display: flex;
+  align-items: center;
+}
+
+.exercise-name-input input {
+  flex: 1;
+  height: 50px;
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.exercise-name-input button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sets {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.input-label2 {
+  flex: 1;
+}
+
+.number-box {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.input-field {
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.input-field-time {
+  flex: 1;
+  padding: 10px;
+  width: 500px;
+  border: none;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.exercise-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.exercise-time {
+  margin-bottom: 50px;
+}
+
+
+.time-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.time-adjust,
+.share-button {
+  background-color: lightgray;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 10px 10px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.time-adjust:hover,
+.share-button:hover {
+  background-color: black;
+}
+
+.upload-share-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.upload-button {
+  background: none;
+  cursor: pointer;
+  font-size: 50px;
+  margin-right: 10px;
+}
+
+.selected-image {
+  max-width: 500px;
+  height: auto;
+}
+
+.default-image {
+  width: 500px;
+  height: auto;
+}
+
+.share-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

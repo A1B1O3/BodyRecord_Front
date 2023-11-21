@@ -1,94 +1,85 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import React, { useState } from 'react';
+import './CalendarPage.css';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 50vh;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  gap: 10px;
-  text-align: center;
-`;
+const CalendarPage = ({ onSelectDate }) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
 
-const DotBox = styled.div`
-  width: 100%;
-  height: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const CalendarDot = styled.div`
-  margin-top: 5px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #f87171;
-`;
-
-const StyledCalendar = styled(Calendar)`
-  border-radius: 30px;
-`;
-
-const CalendarPage = () => {
-  const [value, onChange] = useState(new Date());
-  const dateArr = ["2022. 12. 10."];
-
-  const tileClassName = ({ date }) => {
-    const formattedDate = new Date(date).toLocaleDateString("ko", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-    return dateArr.includes(formattedDate) ? "highlighted-date" : "";
+  const handleDateClick = (date) => {
+    onSelectDate(date);
   };
 
+  const goToPreviousMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  };
+
+  const handleDayClick = (day) => {
+    const newSelectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    setSelectedDate(newSelectedDate);
+    onSelectDate(newSelectedDate);
+  };
+
+  const isSelectedDate = (day) => {
+    return selectedDate && selectedDate.getDate() === day && selectedDate.getMonth() === currentDate.getMonth();
+  };
+
+  const generateCalendar = () => {
+    const startDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    const days = [];
+    const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    const daysInPreviousMonth = previousMonth.getDate();
+    for (let i = 0; i < startDay; i++) {
+      days.push(
+        <div key={`prev-${i}`} className="day prev-month-day">
+          {daysInPreviousMonth - startDay + i + 1}
+        </div>
+      );
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(
+        <div key={`current-${i}`} 
+             className={`day current-month-day ${isSelectedDate(i) ? 'selected' : ''}`}
+             onClick={() => handleDayClick(i)}>
+          {i}
+        </div>
+      );
+    }
+    const nextDaysToAdd = 7 - days.length % 7;
+    if(nextDaysToAdd < 7) {
+      for (let i = 1; i <= nextDaysToAdd; i++) {
+        days.push(
+          <div key={`next-${i}`} className="day next-month-day">
+            {i}
+          </div>
+        );
+      }
+    }
+    return days;
+  };
 
   return (
-    <Container>
-      <StyledCalendar
-        onChange={onChange}
-        value={value}
-        formatDay={(locale, date) =>
-          new Date(date).toLocaleDateString("en-us", {
-            day: "2-digit",
-          })
-        }
-        tileContent={({ date, view }) => {
-          const exist = dateArr.find(
-            (oneDate) =>
-              oneDate ===
-              String(
-                new Date(date).toLocaleDateString("ko", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                })
-              )
-          );
-          return (
-            <>
-              <DotBox>{exist && <CalendarDot />}</DotBox>
-            </>
-          );
-        }}
-        calendarType="US"
-        locale="ko-KR"
-        tileClassName={tileClassName}
-      />
-      <h1 className="month-indicator">
-        {new Date(value).toLocaleDateString("ko", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
-      </h1>
-    </Container>
+    <div className="calendar-container">
+      <div className="month-selector">
+        <button onClick={goToPreviousMonth}>&lt;</button>
+        <span>
+          {`${currentDate.getFullYear()}.${String(currentDate.getMonth() + 1).padStart(2, '0')}`}
+        </span>
+        <button onClick={goToNextMonth}>&gt;</button>
+      </div>
+      <div className="calendar-grid">
+        {['일', '월', '화', '수', '목', '금', '토'].map(dayName => (
+          <div key={dayName} className="day-name">{dayName}</div>
+        ))}
+        {generateCalendar()}
+      </div>
+    </div>
   );
-};
+}
 
 export default CalendarPage;

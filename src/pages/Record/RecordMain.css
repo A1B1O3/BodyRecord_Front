@@ -11,7 +11,6 @@
 .title {
     font-size: 50px;
     font-weight: 700;
-
 }
 
 .menu-button {
@@ -24,12 +23,38 @@ hr {
     border: 0.5px solid lightgray;
 }
 
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    width: fit-content;
+    margin-top: 20px;
+}
+
+.chart-title {
+    font-weight: bolder;
+    font-size: 30px;
+    margin-top: 80px;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+
+.recharts-text {
+    fill: white !important;
+}
+
 .record-exercise-button {
     display: block;
     width: 300px;
     border-radius: 10px;
     padding: 10px;
-    background-color: purple;
+    background-color: #6100FF;
     color: white;
     border: none;
     align-items: center;
