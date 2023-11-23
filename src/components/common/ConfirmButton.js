@@ -7,22 +7,27 @@ import {Link}from 'react-router-dom';
 class ConfirmButton extends React.Component {
     render(){
         return (
-          <Button>
-            <Text>
+               <Button>
+                <Link to ="/Main">
+                <Text>
                 입력 완료
                 </Text>
-            </Button>
+                </Link>
+               </Button>
+             
         );
     }
 }
 
-const Button = styled.button`
+const Button = styled.div`
 width:600px;
 height:90px;
 background-color: #6100FF;
 position: absolute;
-top:85%;
+top:90%;
 border-radius:20px;
+padding:20px;
+box-sizing:border-box;
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
@@ -30,6 +35,8 @@ const Text = styled.div`
 font-size:42px;
 color: white;
 font-weight:800;
+text-align:center;
+text-decoration-line: none;
 `
 
 export default ConfirmButton;

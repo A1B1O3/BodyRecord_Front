@@ -19,17 +19,16 @@ function FirstSetting(){
         <img src= "img/Group 25.png" />
         </ProfileImg>
         <ProfileSetting/>
-        <ConfirmButton/>
+         <ConfirmButton/>
       </PageWrap>
     );
 }
 
 const PageWrap = styled.div`
 width: 1000px;
-height: 100vh;
+height: 100%;  
 display:flex;
 justify-content:center; 
-
 `
 
 const ProfileImg = styled.div`
@@ -39,7 +38,5 @@ position:absolute;
 margin-left:50px;
 top:22%;
 `
-
-
 
 export default FirstSetting;

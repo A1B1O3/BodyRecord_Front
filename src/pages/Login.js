@@ -15,19 +15,17 @@ function Login(){
             <BodyRecordsvg />
           </BodyRecord>
           <Link to ="/FirstSetting" >
-            <Naverlogin/>
-            </Link>
-           <Kakaologin>
-              <img src= "img/kakaologin.png" />
-           </Kakaologin>
+            <img src = "img/google.png"
+            style ={{marginLeft:"20px",
+            marginTop:"500px"}} />
+          </Link>
         </MainBox>
       </PageWrap>
     );
-
 }
 
 const MainBox = styled.div`
-margin-top:50%;
+margin-top:30%;
 width: 600px;
 height: 1000px;
 background-color:pnk;
@@ -40,7 +38,7 @@ height:90px;
 
 const PageWrap = styled.div`
 width: 1000px;
-height: 100vh;
+height: 100%;
 display:flex;
 justify-content:center; 
 `

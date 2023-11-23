@@ -1,0 +1,46 @@
+.exercise-record-container {
+    padding: 50px;
+    
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 50px;
+    font-weight: 700;
+
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    font-size: 50px;
+}
+
+hr {
+    border: 0.5px solid lightgray;
+}
+
+.record-exercise-button {
+    width:600px;
+    height:90px;
+    background-color: #6100FF;
+    position: absolute;
+    top:90%;
+    margin-left:200px;
+    border-radius:20px;
+    padding:20px;
+    box-sizing:border-box;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    color: white;
+    font-weight:800;
+    border: none;
+    align-items: center;
+    font-size: 42px;
+    text-align: center;
+}
