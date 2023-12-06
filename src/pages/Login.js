@@ -6,6 +6,7 @@ import Naverlogin from '../components/common/naverLogin';
 import { ReactComponent as BodyRecordsvg} from '../asset/BodyRecord.svg';
 import {Link}from 'react-router-dom';
 
+
 function Login(){
     return (
       <PageWrap>
@@ -13,20 +14,18 @@ function Login(){
           <BodyRecord>
             <BodyRecordsvg />
           </BodyRecord>
-          <Link to ='Main' >
-            <Naverlogin/>
-            </Link>
-           <Kakaologin>
-              <img src= "img/kakaologin.png" />
-           </Kakaologin>
+          <Link to ="/FirstSetting" >
+            <img src = "img/google.png"
+            style ={{marginLeft:"20px",
+            marginTop:"500px"}} />
+          </Link>
         </MainBox>
       </PageWrap>
     );
-
 }
 
 const MainBox = styled.div`
-margin-top:50%;
+margin-top:30%;
 width: 600px;
 height: 1000px;
 background-color:pnk;
@@ -39,14 +38,14 @@ height:90px;
 
 const PageWrap = styled.div`
 width: 1000px;
-height: 100vh;
+height: 100%;
 display:flex;
 justify-content:center; 
 `
 
 const BodyRecord = styled.div`
 padding-bottom:500px;
-height:80px;
-background-color:yellow;
+height:95px;
+
 `
 export default Login;

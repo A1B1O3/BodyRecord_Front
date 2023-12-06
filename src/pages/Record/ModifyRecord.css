@@ -107,10 +107,12 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  border: none;
 }
 
 .input-label2 {
   flex: 1;
+  border: none;
 }
 
 .number-box {
