@@ -5,7 +5,7 @@ import { BrowserView, MobileView } from 'react-device-detect'
 import { ReactComponent as Backsvg } from '../../asset/Back.svg';
 import {Link}from 'react-router-dom';
 
-class TopBar6 extends React.Component {
+class TopBarPic extends React.Component {
     render(){
         return (
             <Top>
@@ -15,7 +15,7 @@ class TopBar6 extends React.Component {
                     </BackIcon>
                 </Link>
                     <Title>
-                        챌린지 만들기
+                        챌린지 인증하기
                     </Title>
             </Top>
         );
@@ -46,4 +46,4 @@ const Title = styled.span`
     font-weight:bold
 `
 
-export default TopBar6;
+export default TopBarPic;

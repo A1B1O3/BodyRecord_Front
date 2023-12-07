@@ -39,9 +39,11 @@ function ModalBasic({ setModalOpen, id, title, content, writer }: PropsType) {
                 <img src = "img/Search.png"/>
               </Search>
             </ Link>
+            <Link to ='/ProfileMain'>
                <Profile>
                 <img src = "img/Profile.png"/>
               </Profile>
+            </Link>
         </div>
     );
 }

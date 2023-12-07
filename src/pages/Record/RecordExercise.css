@@ -6,7 +6,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .back-button {
@@ -22,17 +21,17 @@
 }
 
 .save-button {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .record-button, .body-button {
   width: 200px;
   height: 60px;
   background: white;
-  color: purple;
+  color: #6100FF;
   border: none;
   font-size: 25px;
-  font-weight: bolder;
+  font-weight: 1000;
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
@@ -40,7 +39,7 @@
 }
 
 .record-button {
-  border: 5px solid purple;
+  border: 5px solid #6100FF;
   margin-right: 10px;
 }
 
@@ -48,10 +47,15 @@
   margin-left: 10px;
 }
 
+.date {
+  color: #6100FF;
+  text-align: center;
+}
+
 .number-box {
   display: inline-block;
   width: 30px;
-  height: 50px;
+  height: 10px;
   border: 2px solid #000;
   border-radius: 5px;
   text-align: center;
@@ -72,18 +76,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
-}
-
-.number-box {
-  width: 70px;
-  height: 40px;
-  line-height: 30px;
-  text-align: center;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
 }
 
 .input-field {
-  width: 200px;
+  width: 180px;
   height: 40px;
 }
 
@@ -113,11 +112,7 @@ label {
 }
 
 .sets {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .sets span {
@@ -126,32 +121,39 @@ label {
 }
 
 .sets input[type="text"] {
-  font-size: 30px;
-  padding: 5px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: none;
 }
 
 .button-section {
-  flex-direction: row;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.button-section .remove-set-button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
 }
 
 .add-set-button, .remove-set-button {
-  width: 150px;
-  height: 50px;
   background-color: white;
-  border-radius: 10%;
-  cursor: pointer;
-  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 10px 20px;
   margin-top: 20px;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: 50px;
+  margin-right: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .add-set-button {
@@ -162,26 +164,96 @@ label {
   margin-left: 10px;
 }
 
+.exercise-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+.record-details {
+  position: relative;
+  padding-bottom: 40px;
+}
+
 .exercise-time {
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-.time-inputs input[type="number"] {
-  width: 40px;
-  border: none;
+.time-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.time-adjust {
+.time-input {
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 30px;
+  text-align: center;
+  width: auto;
+}
+
+.time-inputs .time-adjust,
+.time-inputs input[type="number"] {
+  margin: 0 5px;
+  background-color: white;
   border: none;
-  background: none;
-  font-size: 20px;
-  cursor: pointer;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.exercise-time-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.time-block {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  margin: 0 5px;
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .time-text {
-  font-size: 20px;
   padding: 0 5px;
+  font-size: 25px;
+}
+
+.time-colon {
+  font-size: 25px;
+  padding: 0 5px;
+}
+
+.time-adjust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.faMinus, .faPlus {
+  color: black;
 }
 
 .horizontal-fields {
@@ -198,9 +270,8 @@ label {
 }
 
 .upload-share-buttons {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
@@ -230,4 +301,53 @@ label {
 
 .share-button .fa-share {
   font-size : 50px;
+}
+
+.set-number {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-right: 10px;
+  flex: none;
+  border-radius: 20%;
+  border: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.number-box, .weight-input, .reps-input {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 16px; 
+  text-align: center; 
+  border: none;
+  border-radius: 10px;
+  margin-right: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 50px;
+}
+
+.weight-input, .reps-input {
+  width: 300px;
+  margin-left: 20px;
+}
+
+.sets-header {
+  display: flex;
+  justify-content: space-between;  
+  padding: 10px 0;
+}
+
+.header-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.set-inputs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }

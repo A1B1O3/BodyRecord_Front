@@ -12,7 +12,7 @@ const SearchMain = () => {
   const [minBodyFat, setMinBodyFat] = useState(10);
   const [maxBodyFat, setMaxBodyFat] = useState(20);
 
-  const [ setWeight] = useState(0);
+  const [weight, setWeight] = useState(0);
 
   const navigate = useNavigate();
 

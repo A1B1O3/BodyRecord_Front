@@ -15,7 +15,7 @@ class TopBar6 extends React.Component {
                     </BackIcon>
                 </Link>
                     <Title>
-                        챌린지 만들기
+                        챌린지 인증
                     </Title>
             </Top>
         );
@@ -38,7 +38,7 @@ const BackIcon = styled.div`
 
 const Title = styled.span`
     margin-top: 62px;
-    margin-left: 230px;
+    margin-left: 270px;
     justify-content: center
     width:364px;
     height:80px;

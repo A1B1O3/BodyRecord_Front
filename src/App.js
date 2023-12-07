@@ -16,7 +16,11 @@ import ChallengeList from './pages/Challenge/ChallengeList';
 import ChallengeDetail from './pages/Challenge/ChallengeDetail';
 import ChallengeReport from './pages/Challenge/ChallengeReport';
 import ChallengeAdd from './pages/Challenge/ChallengeAdd';
-function App() {
+import ChallengeCam from './pages/Challenge/ChallengeCam';
+import ChallengePic from './pages/Challenge/ChallengePic';
+import ProfileMain from './pages/Profile/ProfileMain';
+
+function App () {
   return (
     <div>
       <Routes>
@@ -32,6 +36,9 @@ function App() {
       <Route path='/ChallengeDetail' element={<ChallengeDetail />} />
       <Route path='/ChallengeReport' element={<ChallengeReport />} />
       <Route path='/ChallengeAdd' element={<ChallengeAdd />} />
+      <Route path='/ChallengeCam' element={<ChallengeCam />} />
+      <Route path='/ChallengePic' element={<ChallengePic />} />
+      <Route path='/ProfileMain' element={<ProfileMain />} />
       </Routes>
     </div>
   );
