@@ -8,12 +8,16 @@ import TopBar2 from '../../components/common/TopBar2';
 function ChallengeBox() {
     return (
         <Box>
+      
             <Title>
                 오늘의 챌린지
             </Title>
-            <Text>
-                새벽 5시에 일어나기
-            </Text>
+            <Link to ='/ChallengeCam'  
+            style={{ textDecoration: "none" }}>
+                <Text >
+                    새벽 5시에 일어나기
+                </Text>
+            </Link>
             <Text>
                 아침먹기
             </Text>
@@ -52,11 +56,13 @@ const Title = styled.div`
 const Text = styled.div`
     width:800px;
     height:80px;
+    color:black;
     font-size:35px;
     text-align:center;
     padding:15px;
     box-sizing:border-box;
     border-bottom:solid grey 1px;
+
 `
 
 export default ChallengeBox;

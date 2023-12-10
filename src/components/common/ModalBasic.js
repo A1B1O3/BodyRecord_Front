@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import styled from "styled-components";
 import {Link}from 'react-router-dom';
 
-function ModalBasic({ setModalOpen, id, title, content, writer }: PropsType) {
+function ModalBasic({ setModalOpen, id, title, content, writer }) {
 
     const closeModal = () => {
         setModalOpen(false);
@@ -39,9 +39,11 @@ function ModalBasic({ setModalOpen, id, title, content, writer }: PropsType) {
                 <img src = "img/Search.png"/>
               </Search>
             </ Link>
+            <Link to ='/ProfileMain'>
                <Profile>
                 <img src = "img/Profile.png"/>
               </Profile>
+            </Link>
         </div>
     );
 }

@@ -5,7 +5,7 @@ import { BrowserView, MobileView } from 'react-device-detect';
 import { ReactComponent as Homesvg } from '../../asset/Home.svg';
 import { Link } from 'react-router-dom';
 
-class TopBar7 extends React.Component {
+class TopBarM6 extends React.Component {
     render(){
         return (
             <Top>
@@ -15,7 +15,7 @@ class TopBar7 extends React.Component {
                     </HomeIcon>
                 </Link>
                 <Title>
-                    챌린지 인증 관리
+                    챌린지 신고 관리
                 </Title>
             </Top>
         );
@@ -32,9 +32,8 @@ const Top = styled.div`
 const HomeIcon = styled(Homesvg)`
     margin-top: 64px;
     margin-left: 30px;
-    width: 70px; // 이 값을 조정하여 SVG 크기를 변경하세요
-    height: 70px; // 이 값을 조정하여 SVG 높이를 변경하세요
-    // 필요한 경우 아래의 스타일을 추가하거나 조정할 수 있습니다.
+    width: 70px;
+    height: 70px;
     /* svg {
       width: 100%;
       height: 100%;
@@ -45,10 +44,10 @@ const Title = styled.span`
     margin-top: 62px;
     margin-left: 230px;
     justify-content: center;
-    width: 364px;
+    width: 460px;
     height: 80px;
     font-size: 60px;
     font-weight: bold;
 `;
 
-export default TopBar7;
+export default TopBarM6;

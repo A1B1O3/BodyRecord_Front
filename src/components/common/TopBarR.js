@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
 
-class TopBar8 extends React.Component {
+class TopBarR extends React.Component {
     render() {
         return (
             <Top>
                 <TitleContainer>
-                    <Title>프로필</Title>
+                    <Title>운동기록</Title>
                 </TitleContainer>
             </Top>
         );
@@ -33,4 +33,4 @@ const Title = styled.span`
     font-weight: bold;
 `;
 
-export default TopBar8;
+export default TopBarR;

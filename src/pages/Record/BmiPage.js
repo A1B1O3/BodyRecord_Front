@@ -1,9 +1,8 @@
 import React from 'react';
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, LabelList } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import './BmiPage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import TopBarR5 from '../../components/common/TopBarR5';
+import styled from 'styled-components';
 
 const BMI = () => {
   const bmiData = [
@@ -29,16 +28,10 @@ const BMI = () => {
   };
 
   return (
-    <div className="bmi-container">
-      <div className="header">
-        <button className="back-button" onClick={handleModifyClick}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <div className="title">체질량 지수</div>
-      </div>
-      <hr />
-      <span className="chart-title">체질량 지수</span>
-      <div className="chart-container">
+    <BmiContainer>
+      <TopBarR5 />
+      <ChartTitle>체질량 지수</ChartTitle>
+      <ChartContainer>
         <LineChart width={600} height={300} data={bmiData} className="recharts-text">
           <XAxis dataKey="date" stroke="white" />
           <YAxis domain={['auto', 'auto']} stroke="white" />
@@ -48,11 +41,11 @@ const BMI = () => {
             <LabelList dataKey="bodyFat" position="top" fill="white" />
           </Line>
         </LineChart>
-      </div>
-      <div className="recorded-figures">
-      <span className="figures-text">기록한 수치</span>
-    </div>
-      <table className="record-table">
+      </ChartContainer>
+      <RecordedFigures>
+        <FiguresText>기록한 수치</FiguresText>
+      </RecordedFigures>
+      <RecordTable>
         <thead>
           <tr>
             <th>날짜</th>
@@ -93,9 +86,81 @@ const BMI = () => {
             <td> </td>
           </tr>
         </tbody>
-      </table>
-    </div>
+      </RecordTable>
+    </BmiContainer>
   );
 };
+
+const BmiContainer = styled.div`
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+
+const ChartTitle = styled.div`
+  margin-top: 70px;
+  margin-right: 550px;
+  font-size: 40px;
+  font-weight: bold;
+`;
+
+const ChartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  padding: 50px;
+  border-radius: 10px;
+  margin: auto;
+  width: 70%;
+  margin-top: 20px;
+`;
+
+const RecordedFigures = styled.div`
+  text-align: center;
+  margin-top: 70px;
+`;
+
+const FiguresText = styled.span`
+  margin-top: 70px;
+  margin-right: 550px;
+  font-size: 40px;
+  font-weight: bold;
+`;
+
+const RecordTable = styled.table`
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+
+  th {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    font-weight: bolder;
+    font-size: 18px;
+  }
+
+  td {
+    background-color: white;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
 
 export default BMI;

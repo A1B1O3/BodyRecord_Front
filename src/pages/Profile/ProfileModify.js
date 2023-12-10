@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faUser, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import TopBarP2 from '../../components/common/TopBarP2';
 
 const ProfileModify = () => {
   let navigate = useNavigate();
@@ -50,13 +51,7 @@ const ProfileModify = () => {
 
   return (
     <ProfileModifyContainer>
-      <ProfileModifyHeader>
-        <BackButton onClick={goToProfileMain}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </BackButton>
-        <HeaderTitle>프로필 수정</HeaderTitle>
-      </ProfileModifyHeader>
-
+      <TopBarP2 />
       <ProfileContent>
         <ProfileImageContainer onClick={handleImageEditClick}>
           {profileImage ? (
@@ -64,6 +59,9 @@ const ProfileModify = () => {
           ) : (
             <FontAwesomeIcon icon={faUser} size="3x" />
           )}
+          <AddImageButton onClick={() => document.getElementById('profile-image-upload').click()}>
+            <FontAwesomeIcon icon={faPlus} />
+          </AddImageButton>
           <InputFileHidden type="file" id="profile-image-upload" onChange={handleImageChange} />
         </ProfileImageContainer>
       </ProfileContent>
@@ -91,13 +89,21 @@ const ProfileModify = () => {
           </SelectDropdown>
         </FieldSet>
 
-        <CenteredContent>
-          <FieldSet>
+        <MetricsContainer>
+          <LeftMetric>
             <TextLabel>체중</TextLabel>
             <ValueSelector value={weight} onChange={(e) => setWeight(e.target.value)}>
               {generateOptions(70, 200, 0.1, 'kg')}
             </ValueSelector>
-          </FieldSet>
+          </LeftMetric>
+
+        <RightMetric>
+            <TextLabel>체지방률</TextLabel>
+            <ValueSelector value={bodyFat} onChange={(e) => setBodyFat(e.target.value)}>
+              {generateOptions(20, 50, 0.1, '%')}
+            </ValueSelector>
+          </RightMetric>
+        </MetricsContainer>
 
           <FieldSet>
             <TextLabel>골격근량</TextLabel>
@@ -105,14 +111,6 @@ const ProfileModify = () => {
               {generateOptions(30, 100, 0.1, 'kg')}
             </ValueSelector>
           </FieldSet>
-
-          <FieldSet>
-            <TextLabel>체지방률</TextLabel>
-            <ValueSelector value={bodyFat} onChange={(e) => setBodyFat(e.target.value)}>
-              {generateOptions(20, 50, 0.1, '%')}
-            </ValueSelector>
-          </FieldSet>
-        </CenteredContent>
 
         <ButtonSection>
           <ModifyButton onClick={handleModifyClick}>수정 완료</ModifyButton>
@@ -131,35 +129,12 @@ const ProfileModifyContainer = styled.div`
   position: relative;
 `;
 
-const ProfileModifyHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 20px 0;
-  flex-direction: column;
-`;
-
-const HeaderTitle = styled.h1`
-  font-size: 40px;
-  text-align: center;
-`;
-
-const BackButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  left: 10px;
-  font-size: 40px;
-`;
-
 const ProfileContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 100px;
 `;
 
 const ProfileImageContainer = styled.div`
@@ -171,6 +146,21 @@ const ProfileImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  cursor: pointer;
+`;
+
+const AddImageButton = styled.button`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 `;
 
@@ -196,10 +186,10 @@ const FieldSet = styled.div`
 const TextLabel = styled.label`
   display: block;
   margin-bottom: 5px;
-  margin-top: 30px;
-  font-size: 16px;
+  margin-top: 50px;
+  font-size: 30px;
   font-weight: bold;
-  margin-left: 50px;
+  margin-left: 60px;
 `;
 
 const InputText = styled.input`
@@ -207,29 +197,39 @@ const InputText = styled.input`
   padding: 10px;
   margin-bottom: 10px;
   margin-left: 50px;
-  border: 1px solid #ccc;
+  margin-top: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 25px;
 `;
 
 const SelectDropdown = styled.select`
   width: 82%;
   padding: 10px;
-  font-size: 16px;
-  border-radius: 4px;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2);
+  font-size: 25px;
+  border: none;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 20px;
   margin-left: 50px;
+  margin-top: 10px;
+  background-color: white;
 `;
 
 const ValueSelector = styled.select`
-  width: 150px;
+  width: 300px;
+  height: 100px;
   padding: 10px;
-  font-size: 25px;
+  font-size: 40px;
   font-weight: bold;
   border-radius: 20px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+  border: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 1);
   margin-bottom: 20px;
   text-align: center;
+  margin-top: 20px;
+  margin-left: 50px;
+  background-color: white;
 `;
 
 const ButtonSection = styled.div`
@@ -245,15 +245,28 @@ const ModifyButton = styled.button`
   border: none;
   border-radius: 15px;
   padding: 15px 30px;
-  font-size: 18px;
+  font-size: 30px;
   cursor: pointer;
+  margin-top: 100px;
+  width: 500px;
 `;
 
-const CenteredContent = styled.div`
+const MetricsContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-top: 20px;
+`;
+
+const LeftMetric = styled(FieldSet)`
+  flex: 1;
+  align-items: flex-start;
+`;
+
+const RightMetric = styled(FieldSet)`
+  flex: 1;
+  align-items: flex-end;
 `;
 
 export default ProfileModify;

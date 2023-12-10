@@ -1,20 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './RecordExercise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronLeft,
-  faTrash,
-  faPlus,
-  faMinus,
-  faShare,
-  faImage,
-} from '@fortawesome/free-solid-svg-icons';
+import { faShare, faMinus, faPlus, faImage } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
+import TopBarR2 from '../../components/common/TopBarR2';
+import styled from 'styled-components';
+import ExercisePage from './ExercisePage';
 
 const RecordExercise = () => {
-  const [isExerciseSelected, setExerciseSelected] = useState(true);
   const [sets, setSets] = useState([{ exerciseName: '', weight: '', reps: '' }]);
-  const [exerciseName, setExerciseName] = useState('');
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,47 +15,13 @@ const RecordExercise = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { date } = params;
-  const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
-    const currentDate = date || new Date().toISOString().split('T')[0];
-    setSelectedDate(currentDate);
-  }, [date]);  
-
-  const handleSaveClick = () => {
-    navigate('/RecordMain');
-  };
-
-  const handleAddSet = () => {
-    setSets(sets => [...sets, { exerciseName: '', weight: '', reps: '' }]);
-  };
-
-  const handleRemoveSet = (index) => {
-    setSets(sets => sets.filter((_, idx) => idx !== index));
-  };
-
-  const handleAddExercise = () => {
-    const newExercise = {
-      exerciseName: '',
-      sets: [{ weight: '', reps: '' }]
-    };
-    setSets([...sets, newExercise]);
-  };
-  
-  const handleExerciseClick = () => {
-    navigate('/RecordExercise');
-  };
-
-  const handleBodyClick = () => {
-    navigate('/RecordBody');
-  };
-
-  const handleDateSelect = (date) => {
-    const timezoneOffset = date.getTimezoneOffset() * 60000;
-    const localDate = new Date(date.getTime() - timezoneOffset);
-    const dateStr = localDate.toISOString().split('T')[0];
-    setSelectedDate(dateStr);
-  };  
+    if (!date) {
+      const currentDate = new Date().toISOString().split('T')[0];
+      navigate(`/RecordExercise/${currentDate}`);
+    }
+  }, [date, navigate]);  
 
   const adjustMinutes = (increment) => {
     setMinutes((prevMinutes) => Math.max(0, prevMinutes + increment));
@@ -71,7 +30,6 @@ const RecordExercise = () => {
   const adjustSeconds = (increment) => {
     setSeconds((prevSeconds) => {
       let newSeconds = prevSeconds + increment;
-
       if (newSeconds >= 60) {
         adjustMinutes(1);
         newSeconds = 0;
@@ -79,9 +37,16 @@ const RecordExercise = () => {
         adjustMinutes(-1);
         newSeconds = 59;
       }
-
       return newSeconds;
     });
+  };
+
+  const handleExerciseClick = () => {
+    navigate('/RecordExercise');
+  };
+
+  const handleBodyClick = () => {
+    navigate('/RecordBody');
   };
 
   const handleFileUpload = () => {
@@ -90,7 +55,6 @@ const RecordExercise = () => {
 
   const handleFileInputChange = (event) => {
     const selectedFile = event.target.files[0];
-
     if (selectedFile) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -101,103 +65,237 @@ const RecordExercise = () => {
   };
 
   return (
-    <div className="record-exercise">
-      <div className="header">
-        <button className="back-button" onClick={() => navigate(-1)} aria-label="뒤로 가기">
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <span className="title">기록하기</span>
-        <button className="save-button" onClick={handleSaveClick} aria-label="저장">저장</button>
-      </div>
-      <hr />
-      <div className="buttons">
-        <button className="record-button" onClick={handleExerciseClick}>운동 기록</button>
-        <button className="body-button" onClick={handleBodyClick}>신체 기록</button>
-      </div>
-      <hr />
-      <div className="date">
+    <RecordExerciseContainer>
+      <TopBarR2 />
+      <ButtonsContainer>
+        <RecordButton onClick={handleExerciseClick}>운동 기록</RecordButton>
+        <BodyButton onClick={handleBodyClick}>신체 기록</BodyButton>
+      </ButtonsContainer>
+      <HorizontalRule />
+      <DateContainer>
         <h1>{date}</h1>
-      </div>
-      <div className="input-label">
-        <label>운동 이름</label>
-        <div className="exercise-name-input">
-          <input type="text" placeholder="운동 이름" value={exerciseName}
-            onChange={(e) => setExerciseName(e.target.value)}
+      </DateContainer>
+      <ExercisePage sets={sets} setSets={setSets} />
+      <TimeContainer>
+      <TimeLabel>운동 시간</TimeLabel>
+      <TimeBlockContainer>
+        <TimeBlock>
+          <TimeAdjustButton onClick={() => adjustMinutes(-1)} disabled={minutes === 0}>
+            <FontAwesomeIcon icon={faMinus} />
+          </TimeAdjustButton>
+          <TimeInput
+            type="number"
+            value={minutes}
+            onChange={(e) => setMinutes(Number(e.target.value))}
           />
-          <FontAwesomeIcon icon={faTrash} onClick={() => setExerciseName('')} />
-        </div>
-      </div>
-      <div className="sets-header">
-        <div className="header-label">세트</div>
-        <div className="header-label">무게</div>
-        <div className="header-label">횟수</div>
-      </div>
-
-      {sets.map((set, index) => (
-        <div key={index} className="set-inputs">
-          <div className="set-number">{index + 1}</div>
-          <input type="number" className="weight-input" value={set.weight} />
-          <input type="number" className="reps-input" value={set.reps} />
-        </div>
-      ))}
-
-      <div className="button-section">
-        <button className="remove-set-button" onClick={() => handleRemoveSet(sets.length - 1)} disabled={sets.length <= 1}>
-          <FontAwesomeIcon icon={faMinus} /> 세트 삭제
-        </button>
-        <button className="add-set-button" onClick={handleAddSet}>
-          <FontAwesomeIcon icon={faPlus} /> 세트 추가
-        </button>
-      </div>
-      <div className="exercise-time-container">
-      <hr/>
-      <div className="exercise-add">
-        <button onClick={handleAddExercise}>⊕ 운동 추가</button>
-      </div>
-
-      <div className="time-container">
-      <div className="time-block">
-        <button className="time-adjust" onClick={() => adjustMinutes(-1)} disabled={minutes === 0}>
-          <FontAwesomeIcon icon={faMinus} style={{ color: 'black' }} />
-        </button>
-        <span className="time-text">{minutes} 분</span>
-        <button className="time-adjust" onClick={() => adjustMinutes(1)}>
-          <FontAwesomeIcon icon={faPlus} style={{ color: 'black' }} />
-        </button>
-      </div>
-      <span className="time-colon">:</span>
-      <div className="time-block">
-        <button className="time-adjust" onClick={() => adjustSeconds(-1)} disabled={seconds === 0}>
-          <FontAwesomeIcon icon={faMinus} style={{ color: 'black' }} />
-        </button>
-        <span className="time-text">{seconds} 초</span>
-        <button className="time-adjust" onClick={() => adjustSeconds(1)}>
-          <FontAwesomeIcon icon={faPlus} style={{ color: 'black' }} />
-        </button>
-      </div>
-    </div>
-    </div>
-
-      <div className="upload-share-buttons">
-        <div className="button-container">
-          <span className="picture-text">사진 업로드</span>
-          <input type="file" id="fileInput" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileInputChange} />
-          <label htmlFor="fileInput" className="upload-button">
-            <FontAwesomeIcon icon={faImage} />
-            {selectedImage && (
-              <img src={selectedImage} alt="선택한 이미지" className="selected-image" />
-            )}
-          </label>
-        </div>
-        <div className="button-container">
-          <span className="share-text">공유하기</span>
-          <button className="share-button">
-            <FontAwesomeIcon icon={faShare} />
-          </button>
-        </div>
-      </div>
-    </div>
+          <TimeAdjustButton onClick={() => adjustMinutes(1)}>
+            <FontAwesomeIcon icon={faPlus} />
+          </TimeAdjustButton>
+        </TimeBlock>
+        <TimeColon>:</TimeColon>
+        <TimeBlock>
+          <TimeAdjustButton onClick={() => adjustSeconds(-1)} disabled={seconds === 0}>
+            <FontAwesomeIcon icon={faMinus} />
+          </TimeAdjustButton>
+          <TimeInput
+            type="number"
+            value={seconds}
+            onChange={(e) => setSeconds(Number(e.target.value))}
+          />
+          <TimeAdjustButton onClick={() => adjustSeconds(1)}>
+            <FontAwesomeIcon icon={faPlus} />
+          </TimeAdjustButton>
+        </TimeBlock>
+      </TimeBlockContainer>
+    </TimeContainer>
+    <UploadShareButtons>
+    <ButtonContainer>
+      <PictureText>사진 업로드</PictureText>
+      <UploadButton htmlFor="fileInput">
+        <FontAwesomeIcon icon={faImage} />
+        {selectedImage && (
+          <img src={selectedImage} alt="Selected preview" style={{ width: '100px', height: '100px' }} />
+        )}
+      </UploadButton>
+    </ButtonContainer>
+    <ButtonContainer>
+      <ShareText>공유하기</ShareText>
+      <ShareButton onClick={handleFileUpload}>
+        <FontAwesomeIcon icon={faShare} />
+      </ShareButton>
+    </ButtonContainer>
+  </UploadShareButtons>
+    </RecordExerciseContainer>
   );
 };
+
+const RecordExerciseContainer = styled.div`
+  width: 1000px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+`;
+
+const RecordButton = styled.button`
+  width: 400px;
+  height: 100px;
+  background: white;
+  color: #6100FF;
+  border: none;
+  font-size: 40px;
+  font-weight: 1000;
+  padding: 10px;
+  border-radius: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 5px solid #6100FF;
+  margin-right: 10px;
+`;
+
+const BodyButton = styled(RecordButton)`
+  margin-left: 10px;
+  border: none;
+`;
+
+const DateContainer = styled.div`
+  color: #6100FF;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 25px;
+`;
+
+const TimeContainer = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 시간 요소를 가로 중앙에 배치 */
+`;
+
+const TimeLabel = styled.div`
+  align-self: flex-start; /* 레이블을 컨테이너 왼쪽에 배치 */
+  font-size: 20px; /* 레이블의 글씨 크기를 작게 조정 */
+  color: #888; /* 글씨 색상을 연하게 조정 */
+  margin-bottom: 10px; /* 레이블과 버튼 사이의 여백 */
+`;
+
+const TimeInput = styled.input`
+  padding: 0 5px;
+  font-size: 30px;
+  width: 60px; // You can adjust the width as needed
+  text-align: center;
+  border: none;
+  background: transparent;
+`;
+
+const TimeBlockContainer = styled.div`
+  display: flex;
+  justify-content: center; // 내부 요소들 중앙에 배치
+  align-items: center;
+  gap: 50px; // 분과 초 사이 간격 추가
+`;
+
+const TimeBlock = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  margin: 0 5px;
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+const TimeAdjustButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 80px; // Make the buttons wider
+  height: 70px; // Make the buttons taller
+  padding: 10px;
+  font-size: 30px;
+`;
+
+const TimeColon = styled.span`
+  font-size: 30px;
+  padding: 0 5px;
+`;
+
+const HorizontalRule = styled.hr`
+  width: 100%; // 전체 너비를 사용하도록 설정합니다.
+  border: none;
+  height: 1px;
+  background-color: #ddd; // 선의 색상을 설정합니다.
+`;
+
+const UploadShareButtons = styled.div`
+  display: flex;
+  justify-content: center; // 내부 요소들을 중앙에 배치하여 버튼 사이의 간격을 줄입니다.
+  align-items: center;
+  width: 100%;
+  gap: 250px; // 버튼 사이의 간격을 설정합니다.
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column; // 요소들을 수직으로 쌓습니다.
+  align-items: center; // 요소들을 가로축 중앙에 배치합니다.
+  margin: 0; // 필요에 따라 마진을 조정합니다.
+`;
+
+const UploadButton = styled.label`
+  width: 230px;
+  height: 230px;
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  cursor: pointer;
+  margin: auto; // 버튼을 중앙에 배치
+`;
+
+const PictureText = styled.span`
+  align-self: flex-start; // 텍스트를 왼쪽 상단에 배치합니다.
+  font-size: 20px;
+  color: #888;
+  margin-bottom: 5px; // 버튼 위에 위치
+  margin-top: 50px;
+`;
+
+const ShareButton = styled.button`
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border-radius: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); // 그림자 효과 추가
+  cursor: pointer;
+`;
+
+const ShareText = styled.span`
+  align-self: flex-end; // 텍스트를 컨테이너 중앙에 배치
+  font-size: 20px;
+  color: #888;
+  margin-bottom: 5px; // 버튼 위에 위치
+`;
 
 export default RecordExercise;

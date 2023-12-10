@@ -5,20 +5,20 @@ import { BrowserView, MobileView } from 'react-device-detect';
 import Naverlogin from '../components/common/naverLogin';
 import { ReactComponent as BodyRecordsvg} from '../asset/BodyRecord.svg';
 import {Link}from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-
-function Login(){
+const Login = () => {
     return (
       <PageWrap>
         <MainBox>
           <BodyRecord>
             <BodyRecordsvg />
           </BodyRecord>
-          <Link to ="/FirstSetting" >
+          <Link to = '/FirstSetting'>
             <img src = "img/google.png"
             style ={{marginLeft:"20px",
-            marginTop:"500px"}} />
-          </Link>
+            marginTop:"500px"}}/>
+            </Link>
         </MainBox>
       </PageWrap>
     );

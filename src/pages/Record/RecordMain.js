@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import CalendarPage from './CalendarPage';
 import 'react-calendar/dist/Calendar.css';
-import './RecordMain.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, LabelList } from 'recharts';
+import TopBarR from '../../components/common/TopBarR';
+import styled from 'styled-components';
 
 const RecordMain = () => {
   const navigate = useNavigate();
@@ -27,6 +26,10 @@ const RecordMain = () => {
     }
   };  
 
+  const handleChartContainerClick = () => {
+    navigate('/BmiPage');
+  };
+
   const chartData = [
     { date: '23.01.03', bodyFat: 23.3 },
     { date: '23.02.22', bodyFat: 23.7 },
@@ -44,21 +47,12 @@ const RecordMain = () => {
   };
 
   return (
-    <div className="exercise-record-container">
-      <div className="header">
-        <span className="title">운동기록</span>
-        <button className="menu-button">
-          <FontAwesomeIcon icon={faBars} />
-        </button>
-      </div>
-      <hr />
-
+    <ExerciseRecordContainer>
+      <TopBarR />
       <CalendarPage onSelectDate={handleDateSelect} />
-
-      <span className="chart-title">체질량 지수 변화</span>
-      <div className="chart-container">
-
-          <LineChart width={600} height={300} data={chartData} className="recharts-text">
+      <ChartTitle>체질량 지수 변화</ChartTitle>
+      <ChartContainer onClick={handleChartContainerClick}>
+        <LineChart width={800} height={500} data={chartData}>
               <XAxis dataKey="date" stroke="white" />
               <YAxis domain={['auto', 'auto']} stroke="white" />
               <Tooltip labelStyle={{ color: 'white' }} itemStyle={{ color: 'white' }} isAnimationActive={false} />
@@ -66,14 +60,59 @@ const RecordMain = () => {
               <Line type="monotone" dataKey="bodyFat" stroke="#4CFF5B" strokeWidth={4} dot={{ r: 6, fill: 'white' }}>
                 <LabelList dataKey="bodyFat" position="top" fill="white" />
               </Line>
-          </LineChart>
-      </div>
-              
-          <button className="record-exercise-button" onClick={handleRecordClick}>
-            운동 기록하기
-          </button>
-        </div>
+        </LineChart>
+        </ChartContainer>
+      <RecordExerciseButton onClick={handleRecordClick}>
+        운동 기록하기
+      </RecordExerciseButton>
+    </ExerciseRecordContainer>
   );
 };
+
+const ExerciseRecordContainer = styled.div`
+  width: 1000px;
+  padding: 50px;
+`;
+
+const ChartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  padding: 20px;
+  border-radius: 10px;
+  margin: auto;
+  width: fit-content;
+  margin-top: 20px;
+`;
+
+const ChartTitle = styled.span`
+  font-weight: bolder;
+  font-size: 50px;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+  display: block;
+`;
+
+const RecordExerciseButton = styled.button`
+  display: block;
+  width: 800px;
+  height: 100px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #6100FF;
+  color: white;
+  border: none;
+  align-items: center;
+  cursor: pointer;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 70px;
+`;
 
 export default RecordMain;

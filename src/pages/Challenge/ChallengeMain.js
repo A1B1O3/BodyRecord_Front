@@ -8,6 +8,8 @@ import ChallengeBar from './ChallengeBar';
 import ChallengeBox from './ChallengeBox';
 import ChallengeName from './ChallengeName';
 import Modal from '../../components/common/Modal';
+import ProgressBar from "@ramonak/react-progress-bar";
+
 
 
 function ChallengeMain() {
@@ -15,7 +17,7 @@ function ChallengeMain() {
         <PageWrap>
             <Top>
                 <Title>
-                챌린지
+                  챌린지
                 </Title>
             </Top>
             <Title1>
@@ -28,7 +30,13 @@ function ChallengeMain() {
             <Term2>
                 2023.11.01-2023.11.10
             </Term2>
-            <ChallengeBar/>
+            <PgBar>
+            <ProgressBar completed={50}
+            width={800}
+            height={40}
+            bgColor="#25F396"
+             />
+             </PgBar>
             <Percentage>
                 50%
             </Percentage>
@@ -38,7 +46,7 @@ function ChallengeMain() {
             <ChallengeBox/>
             <Link to = '/ChallengeAdd'>
             <ChallengeAdd>
-                첼린지 추가하기
+                첼린지 만들기
             </ChallengeAdd>
             </Link>
             <Link to = '/ChallengeList'>
@@ -179,6 +187,13 @@ const Text = styled.div`
     font-size:40px;
     font-weight:800;
     text-align:center;
+`
+
+const PgBar = styled.div`
+    width:800px;
+    height:40px;
+    margin-left:100px;
+    margin-top:40px;
 `
 
 

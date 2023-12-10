@@ -20,9 +20,9 @@ const IconSVG = styled.svg`
 
 
     const OPTIONS = [
-        { value: "apple", name: "잘못된 챌린지 게시" },
-        { value: "banana", name: "챌린지와 관계없는 내용" },
-        { value: "orange", name: "장난식의 글 게시" },
+        { value: "1", name: "잘못된 챌린지 게시" },
+        { value: "2", name: "챌린지와 관계없는 내용" },
+        { value: "3", name: "장난식의 글 게시" },
     ];
 
     const SelectBox = (props) => {
@@ -37,8 +37,7 @@ const IconSVG = styled.svg`
                     <option
                         key={option.value}
                         value={option.value}
-                        defaultValue={props.defaultValue === option.value}
-                    >
+                        defaultValue={props.defaultValue === option.value}>
                         {option.name}
                     </option>
                 ))}
@@ -49,21 +48,14 @@ const IconSVG = styled.svg`
     return (
         <PageWrap>
             <TopBar5/>
-            <ReportBox>
-                <Category>
-                    <Top>
-                        카테고리 선택
-                     </Top>
-                        <SelectBox options={OPTIONS} defaultValue="banana"></SelectBox>
-                </Category>
-                </ReportBox>
+        
             <ReportBox2>
                 <Write>
                 <img src = '/img/write.png' style={{marginRight:'20px'}} />
                 신고 내용을 입력해 주세요
                 </Write>
                 <textarea
-                style={{marginLeft:'150px',width:'700px',height:'500px'
+                style={{marginLeft:'150px',width:'700px',height:'1000px'
             ,border: '1px solid rgba(0, 0, 0, 0.50)',marginTop:'50px',fontSize:'30px'}}
                 rows={5} 
                 cols={35}
@@ -96,7 +88,7 @@ const ReportBox = styled.div`
 
 const ReportBox2 = styled.div`
     width: 1000px;
-    height: 700px;
+    height: 1300px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.50);
 `
 
