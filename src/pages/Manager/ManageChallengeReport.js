@@ -1,10 +1,12 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import TopBarM5 from '../../components/common/TopBarM5';
+import styled from 'styled-components';
 
 const ManageChallengeReport = () => {
   const navigate = useNavigate();
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
   let reports = [
     { number: 1, name: '닉네임1 님의 신고' },
     { number: 2, name: '닉네임2 님의 신고' },
@@ -15,145 +17,120 @@ const ManageChallengeReport = () => {
     { number: 7, name: '닉네임7 님의 신고' },
   ];
 
+  reports = reports.sort((a, b) => b.number - a.number);
+
+  const pageCount = Math.ceil(reports.length / itemsPerPage);
+
+  const indexOfLastReport = currentPage * itemsPerPage;
+  const indexOfFirstReport = indexOfLastReport - itemsPerPage;
+  const currentReports = reports.slice(indexOfFirstReport, indexOfLastReport);
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   const handleHomeClick = () => {
     navigate('/ManagerMain');
   };
 
-  reports = reports.sort((a, b) => b.number - a.number);
-
   return (
-    <>
-    <div className="manage-report">
-      <div className="top-bar">
-      <FontAwesomeIcon icon={faHouse} className="icon-house" onClick={handleHomeClick} />
-        <h1 className="title">챌린지 신고 관리</h1>
-      </div>
-      <div className="report-header">
-        <span className="report-number">번호</span>
-        <span className="report-category">신고 카테고리</span>
-      </div>
-      <ul className="report-list">
-      {reports.map((report) => (
-        <Link to={`/ManageChallengeReportDetail/${encodeURIComponent(report.name)}`} key={report.name}>
-            <li className="report-item">
-            <span className="report-number">{report.number}</span>
-            <span className="report-category">{report.name}</span>
-            </li>
-        </Link>
+    <ManageReportContainer>
+      <TopBarM5 />
+      <ReportHeader>
+        <ReportNumber>번호</ReportNumber>
+        <ReportCategory>신고 카테고리</ReportCategory>
+      </ReportHeader>
+      <ReportList>
+        {currentReports.map((report) => (
+          <ReportItemLink to={`/ManageChallengeReportDetail/${encodeURIComponent(report.name)}`} key={report.name}>
+            <ReportItem>
+              <ReportNumber>{report.number}</ReportNumber>
+              <ReportCategory>{report.name}</ReportCategory>
+            </ReportItem>
+          </ReportItemLink>
         ))}
-
-      </ul>
-    </div>
-    <style>{`
-      .manage-report {
-        width: 1000px;
-        padding: 20px;
-        margin: 0 auto;
-      }
-      
-      .top-bar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        margin-bottom: 20px;
-      }
-      
-      .icon-house {
-        font-size: 70px;
-        margin-left: 50px;
-      }
-      
-      .title {
-        font-size: 70px;
-        font-weight: bold;
-      }
-
-      .report-item-link {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-      }
-      
-      .report-header {
-        display: flex;
-        justify-content: space-between;
-        background-color: lightgrey;
-        padding: 10px 20px;
-        margin-top: 100px;
-        margin-bottom: 0px;
-        height: 100px;
-        font-size: 30px;
-        align-items: center;
-      }
-      
-      .report-list {
-        list-style-type: none;
-        padding: 30px;
-        padding-top: 0;
-        margin: 0px;
-        overflow-y: auto;
-        font-size: 30px;
-      }
-      
-      .report-list li {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 0;
-        border-bottom: 1px solid #ccc;
-      }
-
-      .report-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-      }
-      
-      .report-number {
-        width: 100px;
-        height: 100px;
-        margin-top: 30px;
-        font-size: 40px;
-        text-align: left;
-        text-decoration: none;
-        color: black;
-      }
-      
-      .report-category {
-        flex-grow: 1;
-        height: 100px;
-        margin-top: 30px;
-        font-size: 40px;
-        text-align: center;
-        margin-right: 400px;
-        text-decoration: none;
-        color: black;
-      }
-
-      .report-list .report-item a {
-        text-decoration: none;
-        color: black;
-      }
-
-      .report-number, .report-category {
-        text-decoration: none;
-        color: black;
-      }
-
-      .report-list .report-item a,
-      .report-list .report-item a:link,
-      .report-list .report-item a:visited,
-      .report-list .report-item a:hover,
-      .report-list .report-item a:active {
-        text-decoration: none;
-        color: black;
-      }
-      
-    `}</style>
-    </>
+      </ReportList>
+      <PageNumberContainer>
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (
+          <PageNumberBox
+            key={pageNumber}
+            onClick={() => handlePageClick(pageNumber)}
+            isActive={currentPage === pageNumber}
+          >
+            {pageNumber}
+          </PageNumberBox>
+        ))}
+      </PageNumberContainer>
+    </ManageReportContainer>
   );
 };
+
+const ManageReportContainer = styled.div`
+  width: 1000px;
+  padding: 20px;
+  margin: 0 auto;
+`;
+
+const ReportHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: lightgrey;
+  padding: 10px 20px;
+  margin-bottom: 0px;
+  height: 100px;
+  font-size: 30px;
+  align-items: center;
+`;
+
+const ReportNumber = styled.span`
+  width: 120px;
+  font-size: 40px;
+  text-align: left;
+`;
+
+const ReportCategory = styled.span`
+  flex-grow: 1;
+  font-size: 40px;
+  text-align: center;
+  margin-right: 300px;
+`;
+
+const ReportList = styled.ul`
+  list-style-type: none;
+  padding: 30px;
+  padding-top: 0;
+  margin: 0px;
+  overflow-y: auto;
+  font-size: 40px;
+`;
+
+const ReportItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 0;
+  border-bottom: 1px solid #ccc;
+`;
+
+const ReportItemLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
+
+const PageNumberContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const PageNumberBox = styled.div`
+  width: 50px;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 5px;
+  margin-top: 200px;
+  padding: 10px;
+  font-size: 40px;
+  background-color: lightgrey;
+`;
 
 export default ManageChallengeReport;

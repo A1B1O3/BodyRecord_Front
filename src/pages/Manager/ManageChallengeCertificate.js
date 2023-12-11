@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import TopBar7 from '../../components/common/TopBar7';
+import TopBarM9 from '../../components/common/TopBarM9';
+import styled from 'styled-components';
 
 const challengeData = [
   { 
@@ -45,7 +45,7 @@ function ManageChallengeCertificate() {
 
   return (
     <Container>
-      <TopBar7 />
+      <TopBarM9 />
       <InfiniteScroll
         dataLength={challengeData.length}
         next={fetchData}

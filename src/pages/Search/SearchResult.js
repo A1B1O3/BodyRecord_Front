@@ -1,23 +1,39 @@
-// SearchResult.js
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SearchResult.css';
 import UserProfile from './UserProfile';
 import redSun from '../../asset/redsun.svg';
 import suncat from '../../asset/suncat.svg';
 import sundog from '../../asset/sundog.svg';
 import hammercurl from '../../asset/hammercurl.svg';
+import TopBarS2 from '../../components/common/TopBarS2';
+import styled from 'styled-components';
 
 const SearchResult = () => {
+  const [apiUserPosts, setApiUserPosts] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/exercise/log');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setApiUserPosts(data);
+      } catch (error) {
+        console.error('Error fetching user posts:', error);
+      }
+    };
+
+    fetchUserPosts();
+  }, []);
 
   const handleBack = () => {
     navigate('/SearchMain');
   };
 
-  const userPosts = [
+  const staticUserPosts = [
     {
       username: '사용자1',
       profileImage: redSun,
@@ -42,18 +58,12 @@ const SearchResult = () => {
   ];
 
   return (
-    <div className="search-result-container">
-      <div className="header">
-        <div className="back-icon" onClick={handleBack}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </div>
-        <div className="search-result-title">검색결과</div>
-      </div>
-      <hr className="separator" />
-      <div className="content-container">
-        {userPosts.map((post, index) => (
-          <div className="user-post" key={index}>
-            <div className="user-content">
+    <StyledSearchResultContainer>
+      <TopBarS2 />
+      <ContentContainer>
+        {staticUserPosts.map((post, index) => (
+          <UserPost key={index}>
+            <UserContent>
               {typeof post.content === 'string' ? post.content.split('\n').map((line, lineIndex) => {
                 const isWorkoutTime = line.includes('운동시간');
                 return (
@@ -62,13 +72,68 @@ const SearchResult = () => {
                   </p>
                 );
               }) : post.content}
-            </div>
-            <UserProfile username={post.username} profileImage={post.profileImage} />
-          </div>
+            </UserContent>
+            <UserProfileWrapper>
+              <UserProfileImage src={post.profileImage} alt="프로필 이미지" />
+              <Username>{post.username}</Username>
+            </UserProfileWrapper>
+          </UserPost>
         ))}
-      </div>
-    </div>
+      </ContentContainer>
+    </StyledSearchResultContainer>
   );
 };
+const StyledSearchResultContainer = styled.div`
+  width: 1000px;
+  padding: 50px;
+  text-align: center;
+`;
+
+const ContentContainer = styled.div`
+  overflow-y: scroll;
+`;
+
+const UserPost = styled.div`
+  width: 800px;
+  height: 500px;
+  padding: 10px;
+  border: none;
+  border-radius: 30px;
+  margin: 0 auto 10px;
+  margin-left: 30px;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 20px;
+`;
+
+const UserProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const UserProfileImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const Username = styled.div`
+  font-weight: bold;
+`;
+
+const UserContent = styled.p`
+  font-size: 24px;
+  &:first-child {
+    margin-bottom: 3em;
+  }
+`;
 
 export default SearchResult;

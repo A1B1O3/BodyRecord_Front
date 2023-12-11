@@ -19,6 +19,7 @@ import ChallengeAdd from './pages/Challenge/ChallengeAdd';
 import ChallengeCam from './pages/Challenge/ChallengeCam';
 import ChallengePic from './pages/Challenge/ChallengePic';
 import ProfileMain from './pages/Profile/ProfileMain';
+import RedirectPage from './pages/RedirectPage';
 
 function App () {
   return (
@@ -39,6 +40,7 @@ function App () {
       <Route path='/ChallengeCam' element={<ChallengeCam />} />
       <Route path='/ChallengePic' element={<ChallengePic />} />
       <Route path='/ProfileMain' element={<ProfileMain />} />
+      <Route path="/auth/oauth2/success" element={<RedirectPage />} />
       </Routes>
     </div>
   );

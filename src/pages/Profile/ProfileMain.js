@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPersonRunning } from '@fortawesome/free-solid-svg-icons';
 import { faUser as faUserRegular } from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from 'react-router-dom'
-import TopBar8 from '../../components/common/TopBar8';
+import TopBarP from '../../components/common/TopBarP';
 import styled from 'styled-components';
 
 const ProfileMain = () => {
@@ -21,16 +21,36 @@ const ProfileMain = () => {
     navigate('/');
   };
 
+  const [profileData, setProfileData] = useState(null);
+
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/profile');
+      const data = await response.json();
+      setProfileData(data);
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
   return (
     <Container>
-      <TopBar8 />
-      <ProfileContent>
-        <ProfileImage>
+    <TopBarP />
+    <ProfileContent>
+      <ProfileImage>
+        {profileData && profileData.profileImage ? (
+          <img src={profileData.profileImage} alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+        ) : (
           <ProfileIcon icon={faUser} size="3x" />
-        </ProfileImage>
-        <ProfileName>
-          <h2>닉네임</h2>
-        </ProfileName>
+        )}
+      </ProfileImage>
+      <ProfileName>
+        <h2>{profileData ? profileData.nickname : '닉네임'}</h2>
+      </ProfileName>
         <div className="profile-actions">
           <ProfileActionsButton onClick={goToProfileModify}>
             <FontAwesomeIcon icon={faUserRegular} />
@@ -41,14 +61,13 @@ const ProfileMain = () => {
             참여중인 챌린지
           </ProfileActionsButton>
         </div>
-      </ProfileContent>
-      <Logout onClick={logout}>
-        <p>로그아웃</p>
-      </Logout>
-    </Container>
-  );
-};
-
+        </ProfileContent>
+        <Logout onClick={logout}>
+          <p>로그아웃</p>
+        </Logout>
+      </Container>
+    );
+  }
 
 const Container = styled.div`
 width: 1000px;
@@ -76,7 +95,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 margin-top: 100px;
-margin-bottom: 40px;
+margin-bottom: 20px;
 `;
 
 const ProfileIcon = styled(FontAwesomeIcon)`
@@ -84,21 +103,21 @@ color: #000;
 `;
 
 const ProfileName = styled.div`
-margin-bottom: 150px;
+margin-bottom: 175px;
 font-weight: bold;
-font-size: 30px;
+font-size: 45px;
 `;
 
 const ProfileActionsButton = styled.button`
-margin-bottom: 50px;
+margin-bottom: 70px;
 border: none;
 background-color: white;
-font-size: 25px;
+font-size: 40px;
 font-weight: bold;
 display: flex;
 align-items: center;
 svg {
-    margin-right: 30px;
+    margin-right: 40px;
   }
 `;
 
@@ -108,8 +127,9 @@ align-self: flex-start;
 padding: 20px;
 cursor: pointer;
 color: grey;
-margin-top: auto;
-margin-left: 200px;
+font-size: 30px;
+margin-top: 200px;
+margin-left: 150px;
 `;
 
 export default ProfileMain;

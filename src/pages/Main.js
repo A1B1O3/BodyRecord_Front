@@ -8,8 +8,11 @@ import {Link}from 'react-router-dom';
 import ChallengeNew from '../components/common/ChallengeNew';
 import Community from '../components/common/Community';
 import Modal from '../components/common/Modal';
+import { useNavigate,useLocation  } from 'react-router-dom';
 
 function Main() {
+ 
+
     return (
         <PageWrap>
             <Top>
