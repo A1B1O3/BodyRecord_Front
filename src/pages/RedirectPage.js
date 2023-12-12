@@ -17,28 +17,48 @@ function RedirectPage() {
 
     const [accessToken, setAccessToken] = useState('');
 
+    const [isFirst, setIsFirst, setIsNotFirst] = useState('');
+
     useEffect(() => {
 
         const urlParams = new URLSearchParams(window.location.search);
     
         const accessCode = urlParams.get('accessToken');
-    
 
-        localStorage.setItem('accessToken', accessCode);
+        const refreshCode = urlParams.get('refreshToken');
+
+        const isFirstParam = urlParams.get('isFirst');
+
         const newUrl = window.location.pathname + window.location.hash;
+
+        //url 삭제
         window.history.replaceState({}, document.title, newUrl);
     
- 
         const storedToken = localStorage.getItem('accessToken');
 
-        if (storedToken) {
+        const setIsFirst= (isFirstParam === 'true');
+
+        const setIsNotFirst= (isFirstParam === 'false');
+
+        if (storedToken && setIsFirst) {
           setAccessToken(storedToken);
 
-          Navigate('/Main');
+        //회원 아닐시 firstsetting으로 이동
+          Navigate('/FirstSetting');
         }
-          else{
+
+        //회원일 시 Main으로 이동
+          else if (storedToken && setIsNotFirst){
+            Navigate('/Main');
+
+        } else {
             Navigate('/');
         }
+
+        localStorage.setItem('accessToken', accessCode);
+        localStorage.setItem('refreshToken', refreshCode);
+        localStorage.setItem('isFist', isFirstParam);
+        
       }, []); 
 
 
