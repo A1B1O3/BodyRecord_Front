@@ -20,7 +20,7 @@ const Login = () => {
       console.error('Google login error:', error);
     }
   };
-  
+
     return (
       <PageWrap>
         <MainBox>

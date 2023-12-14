@@ -15,11 +15,7 @@ function FirstSetting(){
     return (
       <PageWrap>
         <TopBar/>
-        <ProfileImg>
-        <img src= "img/Group 25.png" />
-        </ProfileImg>
         <ProfileSetting/>
-         <ConfirmButton/>
       </PageWrap>
     );
 }

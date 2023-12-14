@@ -28,6 +28,7 @@ top:90%;
 border-radius:20px;
 padding:20px;
 box-sizing:border-box;
+margin-left:200px;
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `
 
