@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useRef, useEffect } from 'react';
 import { useMediaQuery } from "react-responsive"
 import styled from "styled-components";
 import { BrowserView, MobileView } from 'react-device-detect';
@@ -9,14 +9,37 @@ import ChallengeNew from '../components/common/ChallengeNew';
 import Community from '../components/common/Community';
 import Modal from '../components/common/Modal';
 import { useNavigate,useLocation  } from 'react-router-dom';
-
+import axios from 'axios';
 function Main() {
- 
+
+    const [memberNickname, setMemberNickname] = useState('');
+    const accessToken = localStorage.getItem('accessToken'); 
+
+    useEffect(() => {
+        fetchData();
+      }, []); 
+
+      const fetchData = () => {
+
+        axios.get('http://localhost:8080/member', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => {
+            const data = Object.values(response.data);
+            setMemberNickname(data);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+      };
 
     return (
         <PageWrap>
             <Top>
-                <Title>
+            <Title>
             <TopBar>
              <BodyRecordsvg />
              </TopBar>

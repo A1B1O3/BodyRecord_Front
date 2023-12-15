@@ -9,10 +9,31 @@ import ChallengeBox from './ChallengeBox';
 import ChallengeName from './ChallengeName';
 import Modal from '../../components/common/Modal';
 import ProgressBar from "@ramonak/react-progress-bar";
-
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function ChallengeMain() {
+
+
+        const [challengeDetail, setChallengeDetail] = useState(null);
+      
+        useEffect(() => {
+          // 서버에서 데이터를 가져오는 API 엔드포인트를 설정
+          const challengeCode = 0; // 조회하고자 하는 Challenge의 코드
+          const apiUrl = `http://localhost:8080​/challenge​/participating​/details`;
+      
+          // Axios를 사용하여 데이터 가져오기
+          axios.get(apiUrl)
+            .then(response => {
+              setChallengeDetail(response.data);
+              console.log(response.data);
+            })
+            .catch(error => {
+              console.error('Error fetching challenge details:', error);
+            });
+        }, []);
+
+
     return (
         <PageWrap>
             <Top>
@@ -31,14 +52,14 @@ function ChallengeMain() {
                 2023.11.01-2023.11.10
             </Term2>
             <PgBar>
-            <ProgressBar completed={50}
+            <ProgressBar completed={0}
             width={800}
             height={40}
             bgColor="#25F396"
              />
              </PgBar>
             <Percentage>
-                50%
+            0%
             </Percentage>
             <Text>
                 달성

@@ -3,11 +3,16 @@ import styled from "styled-components";
 import { BrowserView, MobileView } from 'react-device-detect';
 import {Link}from 'react-router-dom';
 import TopBar3 from '../../components/common/TopBar3';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import ChallengeList2 from './ChallengeList2';
 
 
 function ChallengeList() {
+
+    useEffect(() => {
+        
+        setSelectedButton(2);
+      }, []);
 
     const [selectedButton, setSelectedButton] = useState(null);
   
@@ -26,11 +31,6 @@ function ChallengeList() {
      <PageWrap>
         <TopBar3/>
         <CategoryList>
-            <Link to = ''style={{ textDecoration: 'none' }}>
-            <Category selected={selectedButton === 1} onClick={() => handleButtonClick(1)}>
-                 홈           
-            </Category>
-            </Link>
             <Category selected={selectedButton === 2} onClick={() => handleButtonClick(2)}>
                 인기
             </Category>
@@ -45,7 +45,7 @@ function ChallengeList() {
 
 const PageWrap = styled.div`
     width: 1000px;
-    height: 100vh;
+    height: 3500px;
     flex-direction: column;
     justify-content:center;
 `

@@ -22,11 +22,9 @@ function RedirectPage() {
     useEffect(() => {
 
         const urlParams = new URLSearchParams(window.location.search);
-    
+
         const accessCode = urlParams.get('accessToken');
-
         const refreshCode = urlParams.get('refreshToken');
-
         const isFirstParam = urlParams.get('isFirst');
 
         const newUrl = window.location.pathname + window.location.hash;
@@ -35,9 +33,7 @@ function RedirectPage() {
         window.history.replaceState({}, document.title, newUrl);
     
         const storedToken = localStorage.getItem('accessToken');
-
         const setIsFirst= (isFirstParam === 'true');
-
         const setIsNotFirst= (isFirstParam === 'false');
 
         if (storedToken && setIsFirst) {
@@ -54,7 +50,6 @@ function RedirectPage() {
         } else {
             Navigate('/');
         }
-
         localStorage.setItem('accessToken', accessCode);
         localStorage.setItem('refreshToken', refreshCode);
         localStorage.setItem('isFist', isFirstParam);
