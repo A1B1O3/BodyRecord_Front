@@ -3,8 +3,35 @@ import styled from "styled-components";
 import { BrowserView, MobileView } from 'react-device-detect';
 import {Link}from 'react-router-dom';
 import TopBar4 from '../../components/common/TopBar4';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
+
+
+
 function ChallengeDetail() {
+
+    const [challengeData, setChallengeData] = useState([]);
+    const accessToken = localStorage.getItem('accessToken'); 
+   
+    useEffect(() => {
+      const fetchData = () => {
+
+        axios.get('http://localhost:8080/challenge/1', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => {
+            setChallengeData(response.data);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('에러', error);
+        });
+      };
+      fetchData(); 
+  }, []);
+
     return (
         <PageWrap>
             <TopBar4/>
@@ -13,11 +40,11 @@ function ChallengeDetail() {
                 </Image>
             <TitleBox>
             <Title>
-            새벽 6시 기상 · 10km 달리기
+            {challengeData.challengeTitle}
             </Title>
             <People>
                 <img src = './img/person.png' style={{marginRight:'20px'}} />
-                현재 256명
+                현재 {challengeData.challenge}명
             </People>
             </TitleBox>
             <TimeBox>
@@ -25,7 +52,7 @@ function ChallengeDetail() {
                     <img src = './img/date.png' style={{marginRight:'20px'}} /> 챌린지 기간
                 </Time>
                 <Date>
-                    2023.10.02 - 2023.10.31
+                    {challengeData.challengeStartdate} ~ {challengeData.challengeEnddate}
                 </Date>
             </TimeBox>
             <TodoBox>
@@ -33,7 +60,7 @@ function ChallengeDetail() {
                 <img src = './img/new.png' style={{marginRight:'20px'}} /> 챌린지 내용
                     </Todo>
                     <TodoDetail>
-                        챌린지 내용 설명
+                    {challengeData.challengeContent}
                     </TodoDetail>
             </TodoBox>
                 <Button>
