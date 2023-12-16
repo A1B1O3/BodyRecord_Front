@@ -13,22 +13,22 @@ function ChallengeBox() {
         <Box>
       
             <Title>
-                오늘의 챌린지
+              챌린지
             </Title>
             <Link to ='/ChallengeCam'  
             style={{ textDecoration: "none" }}>
-                <Text >
-                    새벽 5시에 일어나기
-                </Text>
+             <Text >
+                
+            </Text>
             </Link>
             <Text>
-                아침먹기
+             
             </Text>
             <Text>
-                10KM 러닝
+      
             </Text>
             <Text>
-                10시에 취침하기
+             
             </Text>
         </Box>
     );

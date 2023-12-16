@@ -14,7 +14,60 @@ import axios from 'axios';
 
 function ChallengeMain() {
 
+    const accessToken = localStorage.getItem('accessToken');
+    const [participatingChallenge, setParticipatingChallenge] = useState([]);
+    const [achievementRate, setAchievementRate] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [additionalData, setAdditionalData] = useState(null);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+       
+          const response = await axios.get('http://localhost:8080/challenge/participating/details', {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          });
+  
+          setParticipatingChallenge(response.data);
+          setLoading(false);
+  
+          if (response.data.length > 0) {
+            const challengeCode = response.data[0].challengeCode; ; 
+            console.log('챌린지코드:', challengeCode);
 
+            const achievementRateResponse = await axios.get(`http://localhost:8080/challenge/achievement-rate/${challengeCode}`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+              },
+            
+            });
+  
+            setAchievementRate(achievementRateResponse.data);
+            console.log('달성률:', achievementRateResponse.data);
+
+            console.log('Achievement Rate:', achievementRateResponse.data);
+
+
+            const additionalDataResponse = await axios.get(`http://localhost:8080/challenge/${challengeCode}`, {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+              },
+            });
+  
+            setAdditionalData(additionalDataResponse.data);
+  
+            console.log('추가내용:', additionalDataResponse.data);
+          }
+        } catch (error) {
+          setLoading(false);
+          console.error('에러', error);
+        }
+      };
+  
+      fetchData();
+    }, [accessToken]);
+    const challenge = participatingChallenge[0];
 
     return (
         <PageWrap>
@@ -26,27 +79,41 @@ function ChallengeMain() {
             <Title1>
                나의 챌린지
             </Title1>
-            <ChallengeName/>
-            <Term>
-                기간
-            </Term>
-            <Term2>
-                2023.11.01-2023.11.10
-            </Term2>
-            <PgBar>
-            <ProgressBar completed={0}
+            {loading ? (
+        <p>Loading...</p>
+      ) : challenge && challenge.challengeTitle ? (
+        <>
+          <Name>{challenge.challengeTitle} 참여중</Name>
+          <Term>기간</Term>
+          <Term2>{challenge.challengeStartdate} ~ {challenge.challengeEnddate}</Term2>
+          <PgBar>
+            <ProgressBar completed={achievementRate}
             width={800}
             height={40}
             bgColor="#25F396"
              />
-             </PgBar>
-            <Percentage>
-            0%
+          </PgBar>
+          <Percentage>
+          {achievementRate}%
             </Percentage>
             <Text>
                 달성
             </Text>
-            <ChallengeBox/>
+         <Box>
+            <Title2>
+                {additionalData.challengeTitle}
+            </Title2>
+            <Link to ='/ChallengeCam'  
+            style={{ textDecoration: "none" }}>
+            <Text1 >
+                {additionalData.challengeContent}
+            </Text1>
+            </Link>
+         </Box>
+        </>
+      ) : (
+        <Name>챌린지를 참여하고 있지 않습니다.</Name>
+      )}
             <Link to = '/ChallengeAdd'>
             <ChallengeAdd>
                 첼린지 만들기
@@ -110,7 +177,7 @@ const Term = styled.div`
 `
 
 const Term2 = styled.div`
-    width:500px;
+    width:600px;
     font-size:40px;
     height:50px;
     font-weight:800;
@@ -199,5 +266,46 @@ const PgBar = styled.div`
     margin-top:40px;
 `
 
+const Name = styled.div`
+    width:700px;
+    height:70px;
+    font-size:30px;
+    font-weight:700;
+    margin-left:100px;
+    margin-top:50px;
+`
 
+const Box = styled.div`
+    width:800px;
+    height:300px;
+    border-radius:30px;
+    margin-left:100px;
+    margin-top:80px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+`
+
+const Title2= styled.div`
+    width:800px;
+    height:100px;
+    font-size:40px;
+    font-weight:800;
+    text-align:center;
+    background-color:#6100FF;
+    color:white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:25px;
+    box-sizing:border-box;
+`
+
+const Text1 = styled.div`
+    width:800px;
+    height:80px;
+    color:black;
+    font-size:35px;
+    text-align:center;
+    padding:15px;
+    box-sizing:border-box;
+    border-bottom:solid grey 1px;
+
+`
 export default ChallengeMain;

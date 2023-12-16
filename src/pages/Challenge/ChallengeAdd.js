@@ -33,7 +33,6 @@ function ChallengeAdd() {
     );
 }
 
-
 const PageWrap = styled.div`
     width:1000px;
     height:100vh

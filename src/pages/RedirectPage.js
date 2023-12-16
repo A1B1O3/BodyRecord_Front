@@ -52,7 +52,7 @@ function RedirectPage() {
         }
         localStorage.setItem('accessToken', accessCode);
         localStorage.setItem('refreshToken', refreshCode);
-        localStorage.setItem('isFist', isFirstParam);
+        localStorage.setItem('isFirst', isFirstParam);
         
       }, []); 
 

@@ -32,8 +32,9 @@ function ChallengeList2() {
     return (
         <PageWrap>
         {popularChallenges.map((challenge, index) => (
-        <Link to = '/ChallengeDetail'>
-        <Box key={index}  background={`url("img/run${index}.png")`}>
+        <Link key={index} to ={ `/ChallengeDetail?index=${index}`}>
+        <Box key={index}  background={`url("img/run${index}.png")`} 
+        >
                 <p>{challenge.challengeTitle}</p>
         </Box>
         </Link>

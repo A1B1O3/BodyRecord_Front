@@ -1,7 +1,7 @@
 import { useMediaQuery } from "react-responsive"
 import styled from "styled-components";
 import { BrowserView, MobileView } from 'react-device-detect';
-import {Link}from 'react-router-dom';
+import {Link, useParams}from 'react-router-dom';
 import TopBar4 from '../../components/common/TopBar4';
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
@@ -9,28 +9,66 @@ import axios from 'axios';
 
 
 function ChallengeDetail() {
-
+    const [index, setIndex] = useState(null);
+    const [adjustedIndexValue, setAdjustedIndex] = useState(null);
     const [challengeData, setChallengeData] = useState([]);
-    const accessToken = localStorage.getItem('accessToken'); 
-   
+    const [participantsData, setParticipantsData] = useState([]);
+    const accessToken = localStorage.getItem('accessToken');
+  
     useEffect(() => {
-      const fetchData = () => {
-
-        axios.get('http://localhost:8080/challenge/1', {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          },
-        })
-        .then(response => {
-            setChallengeData(response.data);
-          console.log(response.data);
-        })
-        .catch(error => {
+      const fetchData = async () => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const indexFromQuery = queryParams.get('index');
+        setIndex(indexFromQuery);
+  
+        const adjustedIndex = parseInt(indexFromQuery, 10) + 1;
+        setAdjustedIndex(adjustedIndex);
+  
+        try {
+          const responseChallenge = await axios.get(`http://localhost:8080/challenge/${adjustedIndex}`, {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          });
+  
+          setChallengeData(responseChallenge.data);
+  
+          const responseParticipants = await axios.get(`http://localhost:8080/challenge/${adjustedIndex}/participants-count`, {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          });
+  
+          setParticipantsData(responseParticipants.data);
+  
+          console.log('챌린지데이터', responseChallenge.data);
+          console.log('참여인원:', responseParticipants.data);
+        } catch (error) {
           console.error('에러', error);
-        });
+        }
       };
-      fetchData(); 
-  }, []);
+  
+      fetchData();
+    }, [accessToken]);
+  
+    const handleChallengeJoin = async () => {
+      try {
+
+        const response = await axios.post(
+          `http://localhost:8080/challenge/join/${adjustedIndexValue}`,
+          null,
+          {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+      } catch (error) {
+        console.error('에러', error);
+      }
+    };
+  
 
     return (
         <PageWrap>
@@ -44,7 +82,7 @@ function ChallengeDetail() {
             </Title>
             <People>
                 <img src = './img/person.png' style={{marginRight:'20px'}} />
-                현재 {challengeData.challenge}명
+                현재{participantsData}명
             </People>
             </TitleBox>
             <TimeBox>
@@ -57,13 +95,13 @@ function ChallengeDetail() {
             </TimeBox>
             <TodoBox>
                 <Todo>
-                <img src = './img/new.png' style={{marginRight:'20px'}} /> 챌린지 내용
+                <img src = './img/new.png' style={{marginRight:'20px'}}/> 챌린지 내용
                     </Todo>
                     <TodoDetail>
                     {challengeData.challengeContent}
                     </TodoDetail>
             </TodoBox>
-                <Button>
+                <Button onClick={handleChallengeJoin}>
                     <Link to ="/ChallengeMain">
                         <Text>
                         챌린지 참가하기
@@ -73,7 +111,7 @@ function ChallengeDetail() {
 
         </PageWrap>
     );
-}
+    }
 
 const PageWrap = styled.div`
     width:1000px;
