@@ -1,221 +1,223 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const ExercisePage = ({ sets, setSets }) => {
+const ExercisePage = () => {
+  const [exercises, setExercises] = useState([
+    { name: '', sets: [{ weight: '', reps: '' }] }
+  ]);
 
-  const handleAddSet = (index) => {
-    const newSets = [...sets];
-    newSets.splice(index + 1, 0, { ...newSets[index], setNumber: newSets[index].setNumber + 1, weight: '', reps: '' });
-    setSets(newSets);
+  const handleSetChange = (exerciseIndex, setIndex, type, value) => {
+    const newExercises = [...exercises];
+    newExercises[exerciseIndex].sets[setIndex][type] = value;
+    setExercises(newExercises);
   };
 
-  const handleAddExercise = () => {
-    setSets([...sets, { exerciseName: '', setNumber: 1, weight: '', reps: '' }]);
+  const addSet = (exerciseIndex) => {
+    const newExercises = [...exercises];
+    newExercises[exerciseIndex].sets.push({ weight: '', reps: '' });
+    setExercises(newExercises);
   };
 
-  const handleRemoveSet = (index) => {
-      const newSets = sets.filter((_, idx) => idx !== index);
-      setSets(newSets);
+  const removeSet = (exerciseIndex) => {
+    const newExercises = [...exercises];
+    if (newExercises[exerciseIndex].sets.length > 1) {
+      newExercises[exerciseIndex].sets.pop();
+    }
+    setExercises(newExercises);
   };
 
-  const handleChange = (index, field, value) => {
-      const newSets = sets.map((set, idx) => {
-          if (idx === index) {
-              return { ...set, [field]: value };
-          }
-          return set;
-      });
-      setSets(newSets);
+  const addExercise = () => {
+    setExercises([...exercises, { name: '', sets: [{ weight: '', reps: '' }] }]);
   };
 
-  const handleClearExerciseName = (index) => {
-      handleChange(index, 'exerciseName', '');
+  const removeExercise = (exerciseIndex) => {
+    if (exercises.length > 1) {
+      const newExercises = exercises.filter((_, index) => index !== exerciseIndex);
+      setExercises(newExercises);
+    }
+  };
+
+  const resetInput = (exerciseIndex) => {
+    const newExercises = [...exercises];
+    newExercises[exerciseIndex].name = '';
+    setExercises(newExercises);
   };
 
   return (
     <>
-      {sets.map((set, index) => (
-        <React.Fragment key={index}>
-          {(index === 0 || set.exerciseName !== sets[index - 1].exerciseName) && (
-            <ExerciseNameContainer>
-              <ExerciseInput
-                type="text"
-                placeholder="운동 이름"
-                value={set.exerciseName}
-                onChange={(e) => handleChange(index, 'exerciseName', e.target.value)}
-              />
-              <FontAwesomeIcon icon={faTrash} size="2x" onClick={() => handleClearExerciseName(index)} />
-            </ExerciseNameContainer>
-          )}
+      {exercises.map((exercise, exerciseIndex) => (
+        <ExerciseContainer key={exerciseIndex}>
+          <ExerciseNameGroup>
+            <ExerciseNameLabel>운동 이름</ExerciseNameLabel>
+            <ExerciseNameInput placeholder="운동 이름" value={exercise.name} onChange={(e) => {
+              const newExercises = [...exercises];
+              newExercises[exerciseIndex].name = e.target.value;
+              setExercises(newExercises);
+            }} />
+            <IconButton onClick={() => removeExercise(exerciseIndex)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </IconButton>
+          </ExerciseNameGroup>
 
-          <SetDetailsContainer>
-            <div>
-              <InputLabel>세트</InputLabel>
-              <SetNumber>{set.setNumber}</SetNumber>
-            </div>
-            <div>
-              <InputLabel>무게</InputLabel>
-              <WeightInput
-                type="number"
-                placeholder="무게"
-                value={set.weight}
-                onChange={(e) => handleChange(index, 'weight', e.target.value)}
-              />
-            </div>
-            <div>
-              <InputLabel>횟수</InputLabel>
-              <RepsInput
-                type="number"
-                placeholder="횟수"
-                value={set.reps}
-                onChange={(e) => handleChange(index, 'reps', e.target.value)}
-              />
-            </div>
-          </SetDetailsContainer>
+          <SetWrapper>
+            <StaticInput readOnly value="세트" disabled />
+            <StaticInput readOnly value="무게" disabled />
+            <StaticInput readOnly value="횟수" disabled />
+          </SetWrapper>
 
-          {(index === sets.length - 1 || sets[index + 1].exerciseName !== set.exerciseName) && (
-            <ActionButtonContainer>
-              <RemoveSetButton onClick={() => handleRemoveSet(index)}>
-                <FontAwesomeIcon icon={faMinus} size="lg" />
-                세트 삭제
-              </RemoveSetButton>
-              <AddSetButton onClick={() => handleAddSet(index)}>
-                <FontAwesomeIcon icon={faPlus} size="lg" />
-                세트 추가
-              </AddSetButton>
-            </ActionButtonContainer>
-          )}
-        </React.Fragment>
+          {exercise.sets.map((set, setIndex) => (
+            <SetWrapper key={setIndex}>
+              <SetInput readOnly value={setIndex + 1} />
+              <WeightInput value={set.weight} onChange={(e) => handleSetChange(exerciseIndex, setIndex, 'weight', e.target.value)} />
+              <RepsInput value={set.reps} onChange={(e) => handleSetChange(exerciseIndex, setIndex, 'reps', e.target.value)} />
+            </SetWrapper>
+          ))}
+
+          <ButtonGroup>
+            <SetButton onClick={() => removeSet(exerciseIndex)}>
+              <FontAwesomeIcon icon={faMinus} />
+              <span>세트삭제</span>
+            </SetButton>
+            <SetButton onClick={() => addSet(exerciseIndex)}>
+              <FontAwesomeIcon icon={faPlus} />
+              <span>세트추가</span>
+            </SetButton>
+          </ButtonGroup>
+        </ExerciseContainer>
       ))}
-
-      <AddExerciseButton onClick={handleAddExercise}>⊕ 운동 추가</AddExerciseButton>
+      <AddExerciseButton onClick={addExercise}>
+        <span>⊕ 운동추가</span>
+      </AddExerciseButton>
     </>
   );
 };
 
-const SetLabel = styled.label``;
-const WeightLabel = styled.label``;
-const RepsLabel = styled.label``;
-
-const LabelsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0;
+const ExerciseContainer = styled.div`
+  width: 800px;
+  padding: 30px;
+  margin-bottom: 20px;
+  margin-top : 10px;
 `;
 
-const InputLabel = styled.label`
-  font-size: 20px;
-  text-align: center;
+const ExerciseNameGroup = styled.div`
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+const ExerciseNameLabel = styled.label`
   display: block;
   margin-bottom: 5px;
-  color: #aaa;
-`;
-
-const ExerciseNameLabel  = styled.label`
-  display: block;
-  text-align: left;
-  margin-bottom: 10px;
-  font-size: 20px;
-  margin-right: 430px;
-`;
-
-const SetNumberLabel = styled.div`
-  font-size: 20px;
-  text-align: center;
-  margin-right: 20px;
-  flex: 1;
-`;
-
-const SetContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-const SetDetailsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const ExerciseNameContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  `;
-
-const ExerciseInput = styled.input`
-  flex: 1;
-  margin-right: 10px;
-  width: 500px;;
-  height: 80px;
   font-size: 30px;
-  text-align: center;
-  color: lightgrey;
+`;
+
+const Input = styled.input`
+  padding: 10px;
   border: none;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
+  margin-right: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
 `;
 
-const SetNumber = styled.div`
+const ExerciseNameInput = styled(Input)`
+  flex-grow: 1;
+  width: 650px;
+  height: 70px;
+  font-size: 30px;
+`;
+
+const StaticInput = styled(Input)`
+  margin-top: 10px;
+  box-shadow: none;
   font-size: 20px;
-  text-align: center;
-  margin-bottom: 5px;
-  width: 100px;
-  height: 50px;
 `;
 
-const WeightInput = styled.input`
-  width: calc(33% - 20px);
-  text-align: center;
-  margin-bottom: 5px;
-  width: 100px;
-  height: 50px;
+const SetInput = styled(Input)`
+  width: 50px;
+  height: 70px;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 5px;
 `;
 
-const RepsInput = styled.input`
-  width: calc(33% - 20px);
-  text-align: center;
-  margin-bottom: 5px;
-  width: 100px;
-  height: 50px;
-`;
-
-const ActionButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const RemoveSetButton = styled.button`
+const WeightInput = styled(Input)`
   width: 250px;
-  height: 60px;
+  height: 70px;
+  font-size: 20px;
+`;
+
+const RepsInput = styled(Input)`
+  width: 250px;
+  height: 70px;
+  font-size: 20px;
+`;
+
+const SetWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  border: none;
-  padding: 5px 10px;
-  margin-right: 5px;
-  cursor: pointer;
-  font-size: 30px;
+  margin-bottom: 10px;
+  gap: 20px;
 `;
 
-const AddSetButton = styled(RemoveSetButton)`
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  justify-content: center;
+`;
+
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 50px;
+  margin-left: 30px;
+  order: -1;
+  font-size: 40px;
+`;
+
+const SetButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 30px;
+  gap: 30px;
+  margin : 10px 10px 10px 10px;
+  color: black;
+  height: 70px;
+  width: auto;
+  flex: none;
 `;
 
 const AddExerciseButton = styled.button`
-  width: 200px;
-  border: 1px solid #ccc;
-  padding: 10px 20px;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  background: none;
+  border: 1px solid black;
+  color: black;
+  font-size: 25px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   position: relative;
 
   &::before,

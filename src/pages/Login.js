@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import { useMediaQuery } from "react-responsive"
 import styled from "styled-components";
 import { BrowserView, MobileView } from 'react-device-detect';
 import Naverlogin from '../components/common/naverLogin';
 import { ReactComponent as BodyRecordsvg} from '../asset/BodyRecord.svg';
 import {Link}from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate,useLocation  } from 'react-router-dom';
+import axios from 'axios';
 const Login = () => {
+
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const onGoogleSocialLogin = async () => {
+    try {
+      window.location.href = `http://localhost:8080/oauth2/authorization/google`;
+    } catch (error) {
+      console.error('Google login error:', error);
+    }
+  };
+
     return (
       <PageWrap>
         <MainBox>
           <BodyRecord>
             <BodyRecordsvg />
           </BodyRecord>
-          <Link to = '/FirstSetting'>
             <img src = "img/google.png"
             style ={{marginLeft:"20px",
-            marginTop:"500px"}}/>
-            </Link>
+                  marginTop:"500px"}}  onClick={onGoogleSocialLogin}/>
         </MainBox>
       </PageWrap>
     );

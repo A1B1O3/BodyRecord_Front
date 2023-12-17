@@ -6,8 +6,32 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from 'axios';
 
 const ChallengeNew = ()=>{
+
+    const [challengeData, setChallengeData] = useState([]);
+    const accessToken = localStorage.getItem('accessToken'); 
+
+   
+    useEffect(() => {
+      const fetchData = () => {
+
+        axios.get('http://localhost:8080/challenge/new-challenges', {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => {
+            setChallengeData(response.data);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('에러', error);
+        });
+      };
+      fetchData(); 
+  }, []);
 
     const settings = {
       dots: true,
@@ -21,22 +45,11 @@ const ChallengeNew = ()=>{
     
     return (
     	<Styled_Slide {...settings}>
-           
-               <Slide1>
-                    새벽 5시 기상<br/>5KM 달리기
-               </Slide1>
-                <Slide2>
-                   10Km 달리기
-                </Slide2>
-                <Slide3>
-                    20KM 달리기<br/>아침식사 하기
-                </Slide3>
-                <Slide4>
-                   20KM 달리기<br/>아침식사 하기
-                </Slide4>
-                <Slide5>
-                    20KM 달리기<br/>아침식사 하기
-                </Slide5>
+               {challengeData.map((challenge, index) => (
+        <Slide key={index}  background={`url("img/run${index}.png")`}>
+                <p>{challenge.challengeTitle}</p>
+        </Slide>
+      ))}
             </Styled_Slide>  
     );
 }
@@ -55,54 +68,14 @@ export const Styled_Slide = styled(Slider)`
     }
     
 `
-const Slide1 = styled.div`
+const Slide = styled.div`
     width:900px;
     height:500px;
     padding:40px;
     font-size:50px;
     color: white;
     font-weight:600;
-    background-image:url("img/run-1.png");
-`
-   
-const Slide2 = styled.div`
-    width:900px;
-    height:500px;
-    padding:40px;
-    font-size:50px;
-    color: white;
-    font-weight:600;
-    background-image:url("img/run-2.png");
-`
-   
-const Slide3 = styled.div`
-    width:900px;
-    height:500px;
-    padding:40px;
-    font-size:50px;
-    color: white;
-    font-weight:600;
-    background-image:url("img/run-3.png");
-`
-   
-const Slide4 = styled.div`
-    width:900px;
-    height:500px;
-    padding:40px;
-    font-size:50px;
-    color: white;
-    font-weight:600;
-    background-image:url("img/run-4.png");
-`
-   
-const Slide5 = styled.div`
-    width:900px;
-    height:500px;
-    padding:40px;
-    font-size:50px;
-    color: white;
-    font-weight:600;
-    background-image:url("img/run-2.png");
+    background: ${props => props.background || 'black'};
 `
    
 

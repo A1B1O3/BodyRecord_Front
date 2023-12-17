@@ -10,7 +10,7 @@ import TopBar2 from '../../components/common/TopBar2';
 function ChallengeName() {
     return (
      <Name>
-        박준식 님의 챌린지 참여중
+        챌린지를 참여하고 있지 않습니다
      </Name>
     );
 }

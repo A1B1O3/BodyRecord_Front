@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faMinus, faPlus, faImage } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,17 +13,40 @@ const RecordExercise = () => {
   const [seconds, setSeconds] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+  const [saveConfirmation, setSaveConfirmation] = useState('');
   const navigate = useNavigate();
   const params = useParams();
   const { date } = params;
 
-  useEffect(() => {
-    if (!date) {
-      const currentDate = new Date().toISOString().split('T')[0];
-      navigate(`/RecordExercise/${currentDate}`);
-    }
-  }, [date, navigate]);  
+  const [exerciseRecords, setExerciseRecords] = useState(null);
+      
 
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('Access Token:', accessToken);
+
+  useEffect(() => {
+
+  const postExerciseLog = (exerciseData) => {
+    const apiUrl = 'http://localhost:8080/exercise/log';
+    
+    axios.post(apiUrl, exerciseData, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => {
+      console.log('Exercise log created:', response.data);
+
+    })
+    .catch(error => {
+      console.error('Error creating exercise log:', error);
+    });
+  };
+}, []);
+
+
+  
   const adjustMinutes = (increment) => {
     setMinutes((prevMinutes) => Math.max(0, prevMinutes + increment));
   };
@@ -64,6 +88,26 @@ const RecordExercise = () => {
     }
   };
 
+  const handleShare = () => {
+    // 공유 로직 구현
+  };
+
+  const handleSave = () => {
+    // TODO: Implement your save logic here
+    // For example, you might want to send a POST request to your backend to save the data
+
+    // After saving, alert the user
+    alert('저장되었습니다.');
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) {
+      return '날짜 없음';
+    }
+    return dateString.replace(/-/g, '.');
+  };
+    
+
   return (
     <RecordExerciseContainer>
       <TopBarR2 />
@@ -73,7 +117,7 @@ const RecordExercise = () => {
       </ButtonsContainer>
       <HorizontalRule />
       <DateContainer>
-        <h1>{date}</h1>
+        <h1>{formatDate(date)}</h1>
       </DateContainer>
       <ExercisePage sets={sets} setSets={setSets} />
       <TimeContainer>
@@ -109,22 +153,35 @@ const RecordExercise = () => {
       </TimeBlockContainer>
     </TimeContainer>
     <UploadShareButtons>
-    <ButtonContainer>
-      <PictureText>사진 업로드</PictureText>
-      <UploadButton htmlFor="fileInput">
-        <FontAwesomeIcon icon={faImage} />
-        {selectedImage && (
-          <img src={selectedImage} alt="Selected preview" style={{ width: '100px', height: '100px' }} />
-        )}
-      </UploadButton>
-    </ButtonContainer>
-    <ButtonContainer>
-      <ShareText>공유하기</ShareText>
-      <ShareButton onClick={handleFileUpload}>
-        <FontAwesomeIcon icon={faShare} />
-      </ShareButton>
-    </ButtonContainer>
-  </UploadShareButtons>
+      <input
+        type="file"
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+        onChange={handleFileInputChange}
+        id="fileInput"
+      />
+      <ButtonContainer>
+        <PictureText>사진 업로드</PictureText>
+        <UploadButton htmlFor="fileInput" onClick={handleFileUpload}>
+          {selectedImage ? (
+            <img src={selectedImage} alt="Selected" style={{ width: '100%', height: '100%', borderRadius: '20%' }} />
+          ) : (
+            <FontAwesomeIcon icon={faImage} />
+          )}
+        </UploadButton>
+      </ButtonContainer>
+
+      <ShareButtonContainer>
+        <ShareText>공유하기</ShareText>
+        <ShareButton onClick={handleShare}>
+          <FontAwesomeIcon icon={faShare} />
+        </ShareButton>
+      </ShareButtonContainer>
+    </UploadShareButtons>
+
+    <SaveButtonContainer>
+      <SaveButton onClick={handleSave}>저장</SaveButton>
+    </SaveButtonContainer>
     </RecordExerciseContainer>
   );
 };
@@ -168,7 +225,7 @@ const BodyButton = styled(RecordButton)`
 const DateContainer = styled.div`
   color: #6100FF;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 20px;
   font-size: 25px;
 `;
 
@@ -176,20 +233,20 @@ const TimeContainer = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* 시간 요소를 가로 중앙에 배치 */
+  align-items: center;
 `;
 
 const TimeLabel = styled.div`
-  align-self: flex-start; /* 레이블을 컨테이너 왼쪽에 배치 */
-  font-size: 20px; /* 레이블의 글씨 크기를 작게 조정 */
-  color: #888; /* 글씨 색상을 연하게 조정 */
-  margin-bottom: 10px; /* 레이블과 버튼 사이의 여백 */
+  align-self: flex-start;
+  font-size: 20px;
+  color: #888;
+  margin-bottom: 10px;
 `;
 
 const TimeInput = styled.input`
   padding: 0 5px;
   font-size: 30px;
-  width: 60px; // You can adjust the width as needed
+  width: 60px;
   text-align: center;
   border: none;
   background: transparent;
@@ -197,9 +254,9 @@ const TimeInput = styled.input`
 
 const TimeBlockContainer = styled.div`
   display: flex;
-  justify-content: center; // 내부 요소들 중앙에 배치
+  justify-content: center;
   align-items: center;
-  gap: 50px; // 분과 초 사이 간격 추가
+  gap: 50px;
 `;
 
 const TimeBlock = styled.div`
@@ -222,8 +279,8 @@ const TimeAdjustButton = styled.button`
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  width: 80px; // Make the buttons wider
-  height: 70px; // Make the buttons taller
+  width: 80px;
+  height: 70px;
   padding: 10px;
   font-size: 30px;
 `;
@@ -234,25 +291,10 @@ const TimeColon = styled.span`
 `;
 
 const HorizontalRule = styled.hr`
-  width: 100%; // 전체 너비를 사용하도록 설정합니다.
+  width: 100%;
   border: none;
   height: 1px;
-  background-color: #ddd; // 선의 색상을 설정합니다.
-`;
-
-const UploadShareButtons = styled.div`
-  display: flex;
-  justify-content: center; // 내부 요소들을 중앙에 배치하여 버튼 사이의 간격을 줄입니다.
-  align-items: center;
-  width: 100%;
-  gap: 250px; // 버튼 사이의 간격을 설정합니다.
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column; // 요소들을 수직으로 쌓습니다.
-  align-items: center; // 요소들을 가로축 중앙에 배치합니다.
-  margin: 0; // 필요에 따라 마진을 조정합니다.
+  background-color: #ddd;
 `;
 
 const UploadButton = styled.label`
@@ -266,14 +308,14 @@ const UploadButton = styled.label`
   justify-content: center;
   font-size: 70px;
   cursor: pointer;
-  margin: auto; // 버튼을 중앙에 배치
+  margin: auto;
 `;
 
 const PictureText = styled.span`
-  align-self: flex-start; // 텍스트를 왼쪽 상단에 배치합니다.
+  align-self: flex-start;
   font-size: 20px;
   color: #888;
-  margin-bottom: 5px; // 버튼 위에 위치
+  margin-bottom: 5px;
   margin-top: 50px;
 `;
 
@@ -287,15 +329,56 @@ const ShareButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 50px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); // 그림자 효과 추가
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 `;
 
 const ShareText = styled.span`
-  align-self: flex-end; // 텍스트를 컨테이너 중앙에 배치
+  align-self: flex-end;
   font-size: 20px;
   color: #888;
-  margin-bottom: 5px; // 버튼 위에 위치
+  margin-bottom: 5px;
+`;
+
+const UploadShareButtons = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const SaveButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  margin-left: 200px;
+`;
+
+const ShareButtonContainer = styled(ButtonContainer)`
+  margin-top: 40px;
+  margin-right: 260px;
+`;
+
+const SaveButton = styled.button`
+  width: 200px;
+  height: 80px;
+  background-color: #6100FF;
+  color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 20px;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 50px;
 `;
 
 export default RecordExercise;

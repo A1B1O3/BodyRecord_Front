@@ -77,6 +77,7 @@ const ListHeader = styled.div`
   justify-content: space-between;
   background-color: lightgrey;
   padding: 10px 20px;
+  margin-top: -15px;
   margin-bottom: 0px;
   height: 100px;
   font-size: 30px;

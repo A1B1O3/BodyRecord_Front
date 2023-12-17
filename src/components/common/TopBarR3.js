@@ -15,10 +15,7 @@ class TopBarR3 extends React.Component {
                         <Backsvg />
                     </BackIcon>
                 </Link>
-                <Title>기록하기</Title>
-                <Link to="/RecordMain">
-                    <SaveButton>저장</SaveButton>
-                </Link>
+                <Title>기록</Title>
             </Top>
         );
     }
@@ -29,32 +26,32 @@ const Top = styled.div`
     align-items: center;
     width: 1000px;
     height: 200px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.50);
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.50);
+}
 `;
 
 const BackIcon = styled.div`
-    margin-left: 30px;
+    margin-left: 13px;
+    margin-bottom: 35px;
     width: 70px;
     height: 70px;
 `;
 
 const Title = styled.span`
-    margin-left: 230px;
+    margin-left: 360px;
+    margin-bottom: 30px;
     width: 364px;
     height: 80px;
     font-size: 60px;
     font-weight: bold;
-`;
-
-const SaveButton = styled.button`
-    margin-left: 100px;
-    padding: 20px 30px;
-    font-size: 35px;
-    font-weight: bold;
-    background-color: lightgrey;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
 `;
 
 export default TopBarR3;

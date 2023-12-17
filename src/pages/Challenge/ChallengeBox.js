@@ -1,11 +1,14 @@
-import React from 'react';
+import React ,{ useState, useEffect } from 'react';
 import { useMediaQuery } from "react-responsive"
 import styled from "styled-components";
 import { BrowserView, MobileView } from 'react-device-detect';
 import {Link}from 'react-router-dom';
 import TopBar2 from '../../components/common/TopBar2';
-
+import axios from 'axios';
 function ChallengeBox() {
+    
+    const [challengeDetail, setChallengeDetail] = useState(null);
+
     return (
         <Box>
       

@@ -36,9 +36,8 @@ function ChallengeDetail() {
                         챌린지 내용 설명
                     </TodoDetail>
             </TodoBox>
-
                 <Button>
-                    <Link to ="/">
+                    <Link to ="/ChallengeMain">
                         <Text>
                         챌린지 참가하기
                         </Text>

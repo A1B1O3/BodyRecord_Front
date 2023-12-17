@@ -22,14 +22,13 @@ function Modal() {
         <div>
         <button style={{  width:"120px",
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-    height:"120px",
-    position:"fixed",
-    top:"85vh",
-    backgroundColor:"#6100FF",
-    border:"none",
-    right:"70px",
-    borderRadius:"100px"}}  onClick={toggleModal}
-    
+        height:"120px",
+        position:"fixed",
+        top:"85vh",
+        backgroundColor:"#6100FF",
+        border:"none",
+        right:"70px",
+        borderRadius:"100px"}}  onClick={toggleModal}
     >
         <img src = "img/Line.png"/>
     </button>

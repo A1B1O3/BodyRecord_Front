@@ -34,15 +34,11 @@ const HomeIcon = styled(Homesvg)`
     margin-left: 30px;
     width: 70px;
     height: 70px;
-    /* svg {
-      width: 100%;
-      height: 100%;
-    } */
 `;
 
 const Title = styled.span`
     margin-top: 62px;
-    margin-left: 230px;
+    margin-left: 270px;
     justify-content: center;
     width: 364px;
     height: 80px;

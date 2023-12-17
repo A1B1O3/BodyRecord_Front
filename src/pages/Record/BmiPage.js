@@ -1,7 +1,7 @@
 import React from 'react';
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, LabelList } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import TopBarR5 from '../../components/common/TopBarR5';
+import TopBarR4 from '../../components/common/TopBarR4';
 import styled from 'styled-components';
 
 const BMI = () => {
@@ -29,7 +29,7 @@ const BMI = () => {
 
   return (
     <BmiContainer>
-      <TopBarR5 />
+      <TopBarR4 />
       <ChartTitle>체질량 지수</ChartTitle>
       <ChartContainer>
         <LineChart width={600} height={300} data={bmiData} className="recharts-text">
@@ -90,6 +90,7 @@ const BMI = () => {
     </BmiContainer>
   );
 };
+
 
 const BmiContainer = styled.div`
   width: 1000px;

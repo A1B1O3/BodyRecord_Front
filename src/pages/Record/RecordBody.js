@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import TopBarR3 from '../../components/common/TopBarR3';
+import TopBarR2 from '../../components/common/TopBarR2';
 import styled from 'styled-components';
 
 const RecordBody = () => {
@@ -38,7 +36,7 @@ const RecordBody = () => {
 
   return (
     <RecordExerciseContainer>
-      <TopBarR3 />
+      <TopBarR2 />
       <ButtonsContainer>
         <RecordButton onClick={handleExerciseClick}>운동 기록</RecordButton>
         <BodyButton onClick={handleBodyClick}>신체 기록</BodyButton>
@@ -96,10 +94,6 @@ const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
-`;
-
-const Button = styled.button`
-
 `;
 
 const BodyButton = styled.button`
@@ -165,7 +159,7 @@ const ModifyButton = styled.button`
 const ValueSelector = styled.div`
   position: relative;
   margin-bottom: 70px;
-  width: 220px;
+  width: 250px;
 `;
 
 const Select = styled.select`
@@ -187,7 +181,6 @@ const HorizontalRule = styled.hr`
 `;
 
 const ButtonSection = styled.div`
-  // However, based on your previous CSS, you might want something like this:
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,14 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CalendarPage from './CalendarPage';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, LabelList } from 'recharts';
 import TopBarR from '../../components/common/TopBarR';
 import styled from 'styled-components';
+import Modal from '../../components/common/Modal';
 
 const RecordMain = () => {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(null); 
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    // 예제 API URL. 실제 API 엔드포인트로 변경해야 합니다.
+    const apiUrl = 'http://example.com/api/chartData';
+
+    // axios를 사용하여 API 호출
+    axios.get(apiUrl)
+      .then(response => {
+        // API에서 받은 데이터를 상태에 설정
+        setChartData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching chart data:', error);
+      });
+  }, []);
+
+
+
+
   const handleDateSelect = (date) => {
     setSelectedDate(date);
   };
@@ -17,25 +39,32 @@ const RecordMain = () => {
     setSelectedDate(date);
   };
 
+  const checkForExistingData = (formattedDate) => {
+
+    return false;
+  };
+
   const handleRecordClick = () => {
     if (selectedDate) {
       const formattedDate = selectedDate.toISOString().split('T')[0];
-      navigate(`/RecordExercise/${formattedDate}`);
+      const hasExistingData = checkForExistingData(formattedDate);
+      const route = hasExistingData ? `/ModifyRecord/${formattedDate}` : `/RecordExercise/${formattedDate}`;
+      navigate(route);
     } else {
       alert('날짜를 선택해주세요.');
     }
-  };  
-
+  };
+    
   const handleChartContainerClick = () => {
     navigate('/BmiPage');
   };
 
-  const chartData = [
-    { date: '23.01.03', bodyFat: 23.3 },
-    { date: '23.02.22', bodyFat: 23.7 },
-    { date: '23.04.02', bodyFat: 23.8 },
-    { date: '23.09.13', bodyFat: 23.9 },
-  ];
+  // const chartData = [
+  //   { date: '23.01.03', bodyFat: 23.3 },
+  //   { date: '23.02.22', bodyFat: 23.7 },
+  //   { date: '23.04.02', bodyFat: 23.8 },
+  //   { date: '23.09.13', bodyFat: 23.9 },
+  // ];
 
   const renderCustomizedLabel = (props) => {
     const { x, y, stroke, value } = props;
@@ -65,6 +94,7 @@ const RecordMain = () => {
       <RecordExerciseButton onClick={handleRecordClick}>
         운동 기록하기
       </RecordExerciseButton>
+      <Modal />
     </ExerciseRecordContainer>
   );
 };
@@ -100,7 +130,7 @@ const ChartTitle = styled.span`
 const RecordExerciseButton = styled.button`
   display: block;
   width: 800px;
-  height: 100px;
+  height: 110px;
   border-radius: 20px;
   padding: 20px;
   background-color: #6100FF;
@@ -108,7 +138,7 @@ const RecordExerciseButton = styled.button`
   border: none;
   align-items: center;
   cursor: pointer;
-  font-size: 40px;
+  font-size: 45px;
   font-weight: bold;
   margin: 0 auto;
   text-align: center;

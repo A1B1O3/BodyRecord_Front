@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+
 import Login from './pages/Login';
 import Main from './pages/Main';
 import FirstSetting from './pages/FirstSetting';
@@ -8,6 +9,7 @@ import RecordMain from './pages/Record/RecordMain';
 import RecordExercise from './pages/Record/RecordExercise';
 import RecordBody from './pages/Record/RecordBody';
 import ModifyRecord from './pages/Record/ModifyRecord';
+import ModifyBody from './pages/Record/ModifyBody';
 import BmiPage from './pages/Record/BmiPage';
 import SearchMain from './pages/Search/SearchMain';
 import SearchResult from './pages/Search/SearchResult';
@@ -32,6 +34,9 @@ import ChallengeMain from './pages/Challenge/ChallengeMain';
 import ChallengeName from './pages/Challenge/ChallengeName';
 import ChallengeReport from './pages/Challenge/ChallengeReport';
 
+import LoginPage from "./pages/LoginPage";
+import RedirectPage from "./pages/RedirectPage";
+
 import logo from "./logo.svg";
 import 'react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker from 'react-modern-calendar-datepicker';
@@ -44,11 +49,13 @@ function App() {
         <Route path='/Main' element={<Main />} />
         <Route path='/FirstSetting' element={<FirstSetting />} />
         <Route path='/RecordMain' element={<RecordMain />} />
+        <Route path='/BmiPage' element={<BmiPage />} />
         <Route path='/RecordExercise/:date' element={<RecordExercise />} />
         <Route path='/RecordExercise' element={<RecordExercise />} />
         <Route path='/RecordBody' element={<RecordBody />} />
         <Route path='/ModifyRecord' element={<ModifyRecord />} />
-        <Route path='/BmiPage' element={<BmiPage />} />
+        <Route path='/ModifyRecord/:date' element={<ModifyRecord />} />
+        <Route path='/ModifyBody' element={<ModifyBody />} />
         <Route path='/SearchMain' element={<SearchMain />} />
         <Route path='/SearchResult' element={<SearchResult />} />
         <Route path='/ProfileMain' element={<ProfileMain />} />
@@ -72,7 +79,8 @@ function App() {
         <Route path='/ChallengeMain' element={<ChallengeMain />} />
         <Route path='/ChallengeName' element={<ChallengeName />} />
         <Route path='/ChallengeReport' element={<ChallengeReport />} />
-
+        <Route path="/" element={ <LoginPage/> }/>
+            <Route path="/auth/oauth2/success" element={ <RedirectPage/> }/>
       </Routes>
     </div>
   );

@@ -12,49 +12,37 @@ class TopBarR4 extends React.Component {
             <Top>
                 <Link to="/RecordMain">
                     <BackIcon>
-                        <Backsvg />
+                        <Backsvg/>
                     </BackIcon>
                 </Link>
-                <Title>기록</Title>
-                <Link to="/RecordMain">
-                    <SaveButton>수정</SaveButton>
-                </Link>
+                <Title>체질량 지수</Title>
             </Top>
         );
     }
 }
 
 const Top = styled.div`
-    display: flex;
-    align-items: center;
+    display:flex;
     width: 1000px;
     height: 200px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.50);
-`;
+`
 
 const BackIcon = styled.div`
+    margin-top: 64px;
     margin-left: 30px;
     width: 70px;
     height: 70px;
-`;
+`
 
 const Title = styled.span`
+    margin-top: 62px;
     margin-left: 230px;
-    width: 364px;
-    height: 80px;
-    font-size: 60px;
-    font-weight: bold;
-`;
-
-const SaveButton = styled.button`
-    margin-left: 100px;
-    padding: 20px 30px;
-    font-size: 35px;
-    font-weight: bold;
-    background-color: lightgrey;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-`;
+    justify-content: center
+    width:364px;
+    height:80px;
+    font-size:60px;
+    font-weight:bold
+`
 
 export default TopBarR4;

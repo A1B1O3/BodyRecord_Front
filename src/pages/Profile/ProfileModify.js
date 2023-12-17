@@ -147,6 +147,7 @@ const ProfileImageContainer = styled.div`
   align-items: center;
   position: relative;
   cursor: pointer;
+  margin-top: 20px;
 `;
 
 const AddImageButton = styled.button`

@@ -5,6 +5,7 @@ import { faUser as faUserRegular } from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from 'react-router-dom'
 import TopBarP from '../../components/common/TopBarP';
 import styled from 'styled-components';
+import Modal from '../../components/common/Modal';
 
 const ProfileMain = () => {
   let navigate = useNavigate();
@@ -65,6 +66,7 @@ const ProfileMain = () => {
         <Logout onClick={logout}>
           <p>로그아웃</p>
         </Logout>
+        <Modal />
       </Container>
     );
   }

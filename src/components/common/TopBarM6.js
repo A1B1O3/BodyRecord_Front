@@ -26,7 +26,16 @@ const Top = styled.div`
     display: flex;
     width: 1000px;
     height: 200px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.50);
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.50);
+    }
 `;
 
 const HomeIcon = styled(Homesvg)`
@@ -34,15 +43,11 @@ const HomeIcon = styled(Homesvg)`
     margin-left: 30px;
     width: 70px;
     height: 70px;
-    /* svg {
-      width: 100%;
-      height: 100%;
-    } */
 `;
 
 const Title = styled.span`
-    margin-top: 62px;
-    margin-left: 230px;
+    margin-top: 45px;
+    margin-left: 170px;
     justify-content: center;
     width: 460px;
     height: 80px;

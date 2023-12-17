@@ -1,24 +1,54 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faShare } from '@fortawesome/free-solid-svg-icons';
 import hammercurl from '../../asset/hammercurl.svg';
-import TopBarR4 from '../../components/common/TopBarR4';
+import TopBarR3 from '../../components/common/TopBarR3';
 import styled from 'styled-components';
 
-const RecordBody = () => {
+const ModifyRecord = () => {
   const navigate = useNavigate();
+  const { date, exerciseCode } = useParams();
+  const [ModifyRecord, setModifyRecord] = useState(null);
+  const accessToken = localStorage.getItem('accessToken');
+  
+  const fetchData = () => {
+    if (!exerciseCode) {
+      console.error('exerciseCode is undefined');
+      return;
+    }
 
-  const handleSaveClick = () => {
-    navigate('/RecordMain');
+    axios.patch(`http://localhost:8080/exercise/log/1`, {}, {
+      headers: {
+        'Authorization': ` eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsIm1lbWJlclJvbGUiOiJST0xFX01FTUJFUiIsImlhdCI6MTcwMjcyMzM2OSwiZXhwIjoxNzAyNzM2OTY5fQ.aONoyXQbwkpx3pncdzKig0Hgc-xEvivCa8REaICfyNA`,
+      },
+    })
+    .then(response => {
+      setModifyRecord(response.data);
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log('Error fetching data:', error);
+    });
+  }; 
+
+  useEffect(() => {
+    if (exerciseCode) {
+      fetchData();
+    }
+  }, [exerciseCode]);
+
+  const handleSave = () => {
+    alert('수정되었습니다.');
   };
 
   const handleExerciseClick = () => {
-    navigate('/RecordExercise');
+    navigate('/ModiryRecord');
   };
 
   const handleBodyClick = () => {
-    navigate('/RecordBody');
+    navigate('/ModifyBody');
   };
 
   const handleModifyClick = () => {
@@ -50,14 +80,14 @@ const RecordBody = () => {
 
   return (
     <RecordExerciseContainer>
-      <TopBarR4 />
+      <TopBarR3 />
       <ButtonsContainer>
         <RecordButton onClick={handleExerciseClick}>운동 기록</RecordButton>
         <BodyButton onClick={handleBodyClick}>신체 기록</BodyButton>
       </ButtonsContainer>
       <HorizontalRule />
       <InputLabel>
-      <ExerciseDate>2023.11.05</ExerciseDate>
+      <ExerciseDate>{date ? date.split('-').join('.') : '날짜 없음'}</ExerciseDate>
         <ExerciseNameInput>
           <InputField
             type="text"
@@ -138,13 +168,16 @@ const RecordBody = () => {
           </ShareButton>
         </ShareButtonContainer>
       </UploadShareButtons>
+      <SaveButtonContainer>
+      <SaveButton onClick={handleSave}>수정</SaveButton>
+    </SaveButtonContainer>
     </RecordExerciseContainer>
   );
 };
 
 const RecordExerciseContainer = styled.div`
   width: 1000px;
-  margin: 0 auto;
+  margin: auto;
   padding: 20px;
 `;
 
@@ -183,6 +216,7 @@ const HorizontalRule = styled.hr`
 `;
 
 const InputLabel = styled.div`
+  text-align: center;
   margin-bottom: 20px;
 `;
 
@@ -198,58 +232,69 @@ const ExerciseDate = styled.div`
 
 const ExerciseNameInput = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 800px;
-  
-  input {
-    font-size: 35px;
-    flex: 1;
-    height: 50px;
-    padding: 20px;
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-  }
+  margin-bottom: 20px;
 `;
 
 const SetsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const InputLabel2 = styled.div`
-  flex: 1;
-`;
-
-const NumberBox = styled.div`
-  width: 30px;
-  height: 30px;
-  padding: 10px;
-  text-align: center;
-  border-radius: 15px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+  margin-bottom: 20px;
 `;
 
 const InputField = styled.input`
-  width: 200px;
+  font-size: 35px;
+  text-align: center;
+  font-weight: bold;
   height: 50px;
+  padding: 20px;
   border: none;
-  border-radius: 15px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 30px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
+  width: 650px;
+  margin: auto;
+`;
+
+const NumberDisplay = styled.div`
+  background: white;
+  text-align: center;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  width: 50px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 5px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
 `;
 
 const ExerciseTimeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 50px;
 `;
 
-const InputFieldTime = styled(InputField)`
+const InputFieldTime = styled.input`
   flex: 1;
   padding: 10px;
-  width: 500px;
-  border-radius: 20px;
+  width: 650px;
+  height: 70px;
+  margin-top: 20px;
+  border-radius: 30px;
+  border: none;
   text-align: center;
+  font-weight: bold;
   font-size: 30px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
 `;
 
 const UploadShareButtons = styled.div`
@@ -279,49 +324,95 @@ const ShareButtonContainer = styled(ButtonContainer)`
 const ShareText = styled.span`
   margin-top: 10px;
   margin-bottom: 10px;
+  font-size: 20px;
 `;
 
 const ShareButton = styled.button`
-  background-color: lightgray;
-  color: white;
+  background-color: white;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
   border: none;
-  padding: 10px;
+  padding: 30px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
+  font-size: 40px;
   cursor: pointer;
   border-radius: 50px;
 `;
 
 const SetLabel = styled.label`
-  // Styles for set label
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
-const NumberDisplay = styled.div`
-  // Styles for number display
+const WeightInput = styled.input`
+  width: 250px;
+  height: 60px;
+  font-size: 30px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
 `;
 
-const WeightInput = styled(InputField)`
-  // Additional styles specific to weight input, if any
-`;
-
-const RepsInput = styled(InputField)`
-  // Additional styles specific to reps input, if any
+const RepsInput = styled.input`
+  width: 250px;
+  height: 60px;
+  font-size: 30px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
 `;
 
 const Image = styled.img`
-  // Styles for image
 `;
 
-const ExerciseText = styled.div``;
-const NameContainer = styled.div``;
-const FileInput = styled.div``;
+const ExerciseText = styled.div`
+  font-size: 20px;
+  margin-top: 20px;
+`;
 
-export default RecordBody;
+const NameContainer = styled.div`
+`;
+
+const FileInput = styled.input`
+  display: none;
+`;
+
+const SaveButtonContainer = styled.div`
+  margin-top: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+
+const SaveButton = styled.button`
+  width: 200px;
+  height: 80px;
+  background-color: #6100FF;
+  color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 20px;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 50px;
+`;
+
+export default ModifyRecord;

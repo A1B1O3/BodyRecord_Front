@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserProfile from './UserProfile';
 import redSun from '../../asset/redsun.svg';
 import suncat from '../../asset/suncat.svg';
@@ -9,25 +10,44 @@ import TopBarS2 from '../../components/common/TopBarS2';
 import styled from 'styled-components';
 
 const SearchResult = () => {
-  const [apiUserPosts, setApiUserPosts] = useState([]);
+  const [searchResult, setSearchResult] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchUserPosts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/exercise/log');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setApiUserPosts(data);
-      } catch (error) {
-        console.error('Error fetching user posts:', error);
-      }
-    };
+    // 서버에서 데이터를 가져오는 API 엔드포인트 설정
+    const apiUrl = `http://localhost:8080/exercise/log/search/body`;
 
-    fetchUserPosts();
-  }, []);
+    const queryParams = new URLSearchParams(location.search);
+    const minWeight = queryParams.get('minWeight') || '';
+    const maxWeight = queryParams.get('maxWeight') || '';
+    const minMuscleMass = queryParams.get('minMuscleMass') || '';
+    const maxMuscleMass = queryParams.get('maxMuscleMass') || '';
+    const minBodyFat = queryParams.get('minBodyFat') || '';
+    const maxBodyFat = queryParams.get('maxBodyFat') || '';
+
+    axios.get(apiUrl, {
+      params: {
+        minWeight,
+        maxWeight,
+        minMuscleMass,
+        maxMuscleMass,
+        minBodyFat,
+        maxBodyFat
+      },
+    })
+    .then(response => {
+      setSearchResult(response.data);
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching search:', error.message);
+    });
+}, [location.search]);
+
+
+
+
 
   const handleBack = () => {
     navigate('/SearchMain');

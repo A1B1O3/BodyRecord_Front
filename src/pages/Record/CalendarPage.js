@@ -20,11 +20,11 @@ const CalendarPage = ({ onSelectDate }) => {
   };
 
   const handleDayClick = (day) => {
-    const newSelectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    const newSelectedDate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), day));
     setSelectedDate(newSelectedDate);
     onSelectDate(newSelectedDate);
   };
-
+  
   const isSelectedDate = (day) => {
     return selectedDate && selectedDate.getDate() === day && selectedDate.getMonth() === currentDate.getMonth();
   };
@@ -87,13 +87,13 @@ const CalendarPage = ({ onSelectDate }) => {
 
 const CalendarContainer = styled.div`
   background: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  font-size: 20px;
-  width: 800px;
+  border-radius: 50px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  font-size: 25px;
+  width: 850px;
   height: 800px;
-  margin: 0 auto;
+  margin: 100px auto 0;
 `;
 
 const MonthSelector = styled.div`
@@ -115,7 +115,7 @@ const CalendarGrid = styled.div`
 const DayName = styled.div`
   text-align: center;
   font-weight: 900;
-  font-size: 35px;
+  font-size: 45px;
   padding: 20px 0;
   margin-top: 30px;
 `;

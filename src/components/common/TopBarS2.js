@@ -28,20 +28,20 @@ const Top = styled.div`
 `
 
 const BackIcon = styled.div`
-    margin-top: 64px;
-    margin-left: 30px;
+    margin-top: 24px;
+    margin-left: -12px;
     width: 70px;
     height: 70px;
 `
 
 const Title = styled.span`
-    margin-top: 62px;
-    margin-left: 230px;
+    margin-top: 24px;
+    margin-left: 320px;
     justify-content: center
     width:364px;
     height:80px;
     font-size:60px;
-    font-weight:bold
+    font-weight:bold;
 `
 
 export default TopBarS2;

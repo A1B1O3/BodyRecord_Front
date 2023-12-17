@@ -38,7 +38,7 @@ const HomeIcon = styled(Homesvg)`
 
 const Title = styled.span`
     margin-top: 62px;
-    margin-left: 230px;
+    margin-left: 170px;
     justify-content: center;
     width: 460px;
     height: 80px;

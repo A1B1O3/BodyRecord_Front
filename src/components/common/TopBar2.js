@@ -43,7 +43,7 @@ const Title = styled.span`
     width:364px;
     height:80px;
     font-size:60px;
-    font-weight:bold
+    font-weight:bold;
 `
 
 export default TopBar2;
