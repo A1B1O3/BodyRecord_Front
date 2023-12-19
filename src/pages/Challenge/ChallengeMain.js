@@ -15,11 +15,16 @@ import axios from 'axios';
 function ChallengeMain() {
 
     const accessToken = localStorage.getItem('accessToken');
+
     const [participatingChallenge, setParticipatingChallenge] = useState([]);
     const [achievementRate, setAchievementRate] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [additionalData, setAdditionalData] = useState(null);
+    const [additionalData, setAdditionalData] = useState([]);
+    
+  
+    
     useEffect(() => {
+
       const fetchData = async () => {
         try {
        
@@ -42,11 +47,10 @@ function ChallengeMain() {
               },
             
             });
-  
+            
             setAchievementRate(achievementRateResponse.data);
+            setLoading(false);
             console.log('달성률:', achievementRateResponse.data);
-
-            console.log('Achievement Rate:', achievementRateResponse.data);
 
 
             const additionalDataResponse = await axios.get(`http://localhost:8080/challenge/${challengeCode}`, {
@@ -56,11 +60,12 @@ function ChallengeMain() {
             });
   
             setAdditionalData(additionalDataResponse.data);
-  
+            setLoading(false);
             console.log('추가내용:', additionalDataResponse.data);
           }
         } catch (error) {
           setLoading(false);
+       
           console.error('에러', error);
         }
       };
@@ -68,6 +73,21 @@ function ChallengeMain() {
       fetchData();
     }, [accessToken]);
     const challenge = participatingChallenge[0];
+
+    const handleChallengeDelete = async () => {
+      window.location.reload();
+      try {
+        if (participatingChallenge.length > 0) {
+        const challengeCode = participatingChallenge[0].challengeCode;
+        const challengeDelete = await axios.delete(`http://localhost:8080/challenge/leave/${challengeCode}`, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+        }
+      } catch (error) {
+      }
+    };
 
     return (
         <PageWrap>
@@ -101,10 +121,9 @@ function ChallengeMain() {
             </Text>
          <Box>
             <Title2>
-                {additionalData.challengeTitle}
+                {challenge.challengeTitle}
             </Title2>
-            <Link to ='/ChallengeCam'  
-            style={{ textDecoration: "none" }}>
+            <Link to ={`/ChallengeCertification?code=${challenge.challengeCode}`}>
             <Text1 >
                 {additionalData.challengeContent}
             </Text1>
@@ -116,7 +135,7 @@ function ChallengeMain() {
       )}
             <Link to = '/ChallengeAdd'>
             <ChallengeAdd>
-                첼린지 만들기
+                챌린지 만들기
             </ChallengeAdd>
             </Link>
             <Link to = '/ChallengeList'>
@@ -124,7 +143,7 @@ function ChallengeMain() {
                 챌린지 참가하기
             </ChallengeList>
             </Link>
-            <ChallengeOut>
+            <ChallengeOut onClick={handleChallengeDelete}>
                 챌린지 탈퇴하기
             </ChallengeOut>
             <Modal/>

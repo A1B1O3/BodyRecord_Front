@@ -214,7 +214,6 @@ margin-left:10%;
 position:absolute;
 font-size:30px;
 color:black;
-
 display:flex;
 box-sizing  : border-box; 
 border-radius: 12px;

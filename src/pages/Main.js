@@ -21,7 +21,7 @@ function Main() {
 
       const fetchData = () => {
 
-        axios.get('http://localhost:8080/member', {
+        axios.get('http://localhost:3000/member', {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
           },
