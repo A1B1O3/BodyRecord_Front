@@ -44,26 +44,25 @@ const ProfileSetting = () => {
         if (nickName.trim() === '') {
             alert('닉네임을 입력해 주세요');
           } else {
-       
-        const formData = new FormData();
-        formData.append('memberImage', selectedImage);
-        formData.append('memberNickname', nickName);
-        formData.append('weight',weight);
-        formData.append('fat',bodyFatPercentage);
-        formData.append('muscle',muscleMass);
-  
-        await axios.post('http://localhost:8080/body/log', formData, {
+            const requestData = {
+                memberImage: selectedImage,
+                memberNickname: nickName,
+                weight: weight,
+                fat: bodyFatPercentage,
+                muscle: muscleMass
+                
+            };
+      
+        await axios.post('http://localhost:8080/body/log', requestData, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
           },
         })
         .then(response => {
-            Navigate('/Main');
             console.log('response',response);})
         ;
     }}
-
         return (
               <PageWrap>
                   <ProfileImg> 
@@ -79,7 +78,7 @@ const ProfileSetting = () => {
                     name="file" 
                     accept='image/*'  
                     style={{"display":"none"}} 
-                    onChange={(e)=>{fileChange(e.target.files[0])}}></input> 
+                   onChange={(e)=>{fileChange(e.target.files[0])}}></input>
                 <img src={selectedImage}
                 style={{
                     "width":"500px",
@@ -96,7 +95,6 @@ const ProfileSetting = () => {
                             name="nickname"
                             value={nickName}
                             onChange={handleNicknameChange} 
-                            name="name" 
                          style ={{width:'800px',
                                 height:'100px',
                                 border:'none',
@@ -107,7 +105,7 @@ const ProfileSetting = () => {
                          </InputBox>
                             <TextBoxUp>
                             <TextBoxIn>
-                                체중
+                                 체중
                             </TextBoxIn>
                             <TextBoxIn>
                                 체지방률
@@ -173,15 +171,16 @@ const ProfileSetting = () => {
                                 position:"relavent"}}>KG
                                     </Text>
                  </SelectBox>
-                <Button onClick={handleSubmit}>
+               <Link to ={'/Main'}>
+                <Button >
                 <Text1>
                 입력 완료
                 </Text1>
                </Button>
+               </Link>
             </PageWrap>
         );
     }
-
 
 const InputBox = styled.div`
 width:800px;

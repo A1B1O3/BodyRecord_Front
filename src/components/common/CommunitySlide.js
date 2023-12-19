@@ -13,10 +13,10 @@ class CommunitySlide extends React.Component {
                 </Photo>
             <Profile>
                 <Pic>
-                    <img src = "img/pic1.jpg" />
+                    <img src = "img/face4.png" />
                 </Pic>
                 <Name>
-                김재성 <br/> 
+                김나래 <br/> 
                 </Name>
             </Profile>
             </PageWrap>

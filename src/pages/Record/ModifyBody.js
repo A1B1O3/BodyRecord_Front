@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TopBarR2 from '../../components/common/TopBarR2';
+import TopBarR3 from '../../components/common/TopBarR3';
 import styled from 'styled-components';
 
 const RecordBody = () => {
@@ -11,11 +11,11 @@ const RecordBody = () => {
   };
 
   const handleExerciseClick = () => {
-    navigate('/RecordExercise');
+    navigate('/ModifyRecord');
   };
 
   const handleBodyClick = () => {
-    navigate('/RecordBody');
+    navigate('/ModifyBody');
   };
 
   const handleModifyClick = () => {
@@ -36,7 +36,7 @@ const RecordBody = () => {
 
   return (
     <RecordExerciseContainer>
-      <TopBarR2 />
+      <TopBarR3 />
       <ButtonsContainer>
         <RecordButton onClick={handleExerciseClick}>운동 기록</RecordButton>
         <BodyButton onClick={handleBodyClick}>신체 기록</BodyButton>

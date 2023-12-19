@@ -21,27 +21,36 @@ class TopBarS2 extends React.Component {
 }
 
 const Top = styled.div`
-    display:flex;
+    display: flex;
     width: 1000px;
     height: 200px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.50);
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.50);
+    }
 `
 
 const BackIcon = styled.div`
-    margin-top: 64px;
-    margin-left: 30px;
+    margin-top: 24px;
+    margin-left: -12px;
     width: 70px;
     height: 70px;
 `
 
 const Title = styled.span`
-    margin-top: 62px;
-    margin-left: 230px;
+    margin-top: 24px;
+    margin-left: 320px;
     justify-content: center
     width:364px;
     height:80px;
     font-size:60px;
-    font-weight:bold
+    font-weight:bold;
 `
 
 export default TopBarS2;

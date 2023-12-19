@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate ,Link} from 'react-router-dom';
 import TopBarS from '../../components/common/TopBarS';
 import styled from 'styled-components';
+import Modal from '../../components/common/Modal';
 
 const SearchMain = () => {
   const [minWeight, setMinWeight] = useState(65);
@@ -11,12 +13,41 @@ const SearchMain = () => {
   const [minBodyFat, setMinBodyFat] = useState(10);
   const [maxBodyFat, setMaxBodyFat] = useState(20);
 
+  const [search, setSearch] = useState(null);
+
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    navigate('/SearchResult');
-  };
 
+  const handleSearch = async () => {
+    const apiUrl = `http://localhost:8080/exercise/log/search/body?minWeight=${minWeight}&maxWeight=${maxWeight}&minMuscleMass=${minMuscleMass}&maxMuscleMass=${maxMuscleMass}&minBodyFat=${minBodyFat}&maxBodyFat=${maxBodyFat}`;
+
+    try {
+      const response = await axios.get(apiUrl);
+      navigate('/SearchResult', { state: { searchResults: response.data } });
+    } catch (error) {
+      console.error('Error fetching search:', error);
+    }
+  };
+    
+
+  // const handleSearch = () => {
+  //   // 현재 검색 조건을 반영한 URL 생성
+  //   const apiUrl = `http://localhost:8080/exercise/log/search/body?minWeight=${minWeight}&maxWeight=${maxWeight}&minMuscleMass=${minMuscleMass}&maxMuscleMass=${maxMuscleMass}&minBodyFat=${minBodyFat}&maxBodyFat=${maxBodyFat}`;
+  
+  //   axios.get(apiUrl)
+  //     .then(response => {
+  //       setSearch(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching search:', error);
+  //     });
+  
+  //   navigate('/SearchResult');
+  // };
+
+
+  
   const generateOptions = (min, max, step) => {
     const options = [];
     for (let i = min; i <= max; i += step) {
@@ -76,7 +107,10 @@ const SearchMain = () => {
           </Select>
         </ValueSelector>
       </DetailsSection>
-      <SearchButton onClick={handleSearch}>검색</SearchButton>
+      <Link to ={'/SearchResult'}>
+      <SearchButton>검색</SearchButton>
+      </Link>
+      <Modal />
     </SearchMainContainer>
   );
 };
@@ -98,13 +132,13 @@ const DetailsSection = styled.div`
 const Label = styled.div`
   font-size: 30px;
   margin-bottom: 10px;
-  margin-right: 400px;
+  margin-right: 600px;
 `;
 
 const ValueSelector = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
 `;
 
 const Wave = styled.span`
@@ -116,27 +150,27 @@ const Wave = styled.span`
 `;
 
 const SearchButton = styled.button`
-  width: 400px;
-  height: 60px;
+  width: 700px;
+  height: 90px;
   background-color: #6100FF;
   color: white;
   padding: 10px;
   cursor: pointer;
   border: none;
-  font-size: 30px;
-  border-radius: 10px;
+  font-size: 40px;
+  border-radius: 20px;
   margin-top: 200px;
 `;
 
 const Select = styled.select`
   text-align: center;
-  width: 200px;
-  height: 70px;
-  font-size: 35px;
+  width: 300px;
+  height: 90px;
+  font-size: 50px;
   font-weight: bold;
   border: none;
   border-radius: 20px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   background-color: white;
 `;
 

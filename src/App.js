@@ -20,7 +20,19 @@ import ChallengeCertification from './pages/Challenge/ChallengeCertification';
 import ChallengePic from './pages/Challenge/ChallengePic';
 import ProfileMain from './pages/Profile/ProfileMain';
 import RedirectPage from './pages/RedirectPage';
-
+import ModifyRecord from './pages/Record/ModifyRecord';
+import BmiPage from './pages/Record/BmiPage';
+import SearchResult from './pages/Search/SearchResult';
+import ProfileModify from './pages/Profile/ProfileModify';
+import ManagerMain from './pages/Manager/ManagerMain';
+import ManageMember from './pages/Manager/ManageMember';
+import ManageChallenge from './pages/Manager/ManageChallenge';
+import ManageChallengeDetail from './pages/Manager/ManageChallengeDetail';
+import ManageChallengeReport from './pages/Manager/ManageChallengeReport';
+import ManageChallengeReportDetail from './pages/Manager/ManageChallengeReportDetail';
+import ManageCertificateReport from './pages/Manager/ManageCertificateReport';
+import ManageCertificateReportDetail from './pages/Manager/ManageCertificateReportDetail';
+import ManageChallengeCertificate from './pages/Manager/ManageChallengeCertificate';
 function App () {
   return (
     <div>
@@ -41,6 +53,25 @@ function App () {
       <Route path='/ChallengePic' element={<ChallengePic />} />
       <Route path='/ProfileMain' element={<ProfileMain />} />
       <Route path="/auth/oauth2/success" element={<RedirectPage />} />
+      <Route path='/RecordMain' element={<RecordMain />} />
+      <Route path='/RecordExercise/:date' element={<RecordExercise />} />
+      <Route path='/RecordExercise' element={<RecordExercise />} />
+      <Route path='/RecordBody' element={<RecordBody />} />
+      <Route path='/ModifyRecord' element={<ModifyRecord />} />
+      <Route path='/BmiPage' element={<BmiPage />} />
+      <Route path='/SearchMain' element={<SearchMain />} />
+      <Route path='/SearchResult' element={<SearchResult />} />
+      <Route path='/ProfileModify' element={<ProfileModify />} />
+      <Route path='/ManagerMain' element={<ManagerMain />} />
+        <Route path='/ManageMember' element={<ManageMember />} />
+        <Route path='/ManageChallenge' element={<ManageChallenge />} />
+        <Route path="/ManageChallengeDetail/:challengeName" element={<ManageChallengeDetail />} />
+        <Route path='/ManageChallengeReport' element={<ManageChallengeReport />} />
+        <Route path='/ManageChallengeReportDetail/:reportName' element={<ManageChallengeReportDetail />} />
+        <Route path="/ManageChallengeDetail/:challengeName" element={<ManageChallengeDetail />} />
+        <Route path='/ManageCertificateReport' element={<ManageCertificateReport />} />
+        <Route path="/ManageCertificateReportDetail/:reportName" element={<ManageCertificateReportDetail />} />
+        <Route path='/ManageChallengeCertificate' element={<ManageChallengeCertificate />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './CalendarPage.css';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const CalendarPage = ({ onSelectDate }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -18,11 +20,11 @@ const CalendarPage = ({ onSelectDate }) => {
   };
 
   const handleDayClick = (day) => {
-    const newSelectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    const newSelectedDate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), day));
     setSelectedDate(newSelectedDate);
     onSelectDate(newSelectedDate);
   };
-
+  
   const isSelectedDate = (day) => {
     return selectedDate && selectedDate.getDate() === day && selectedDate.getMonth() === currentDate.getMonth();
   };
@@ -35,28 +37,29 @@ const CalendarPage = ({ onSelectDate }) => {
     const daysInPreviousMonth = previousMonth.getDate();
     for (let i = 0; i < startDay; i++) {
       days.push(
-        <div key={`prev-${i}`} className="day prev-month-day">
+        <Day key={`prev-${i}`} className="prev-month-day">
           {daysInPreviousMonth - startDay + i + 1}
-        </div>
+        </Day>
       );
     }
 
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(
-        <div key={`current-${i}`} 
-             className={`day current-month-day ${isSelectedDate(i) ? 'selected' : ''}`}
+        <Day key={`current-${i}`} 
+             className={`current-month-day ${isSelectedDate(i) ? 'selected' : ''}`}
              onClick={() => handleDayClick(i)}>
           {i}
-        </div>
+        </Day>
       );
     }
+
     const nextDaysToAdd = 7 - days.length % 7;
-    if(nextDaysToAdd < 7) {
+    if (nextDaysToAdd < 7) {
       for (let i = 1; i <= nextDaysToAdd; i++) {
         days.push(
-          <div key={`next-${i}`} className="day next-month-day">
+          <Day key={`next-${i}`} className="next-month-day">
             {i}
-          </div>
+          </Day>
         );
       }
     }
@@ -64,22 +67,81 @@ const CalendarPage = ({ onSelectDate }) => {
   };
 
   return (
-    <div className="calendar-container">
-      <div className="month-selector">
-        <button onClick={goToPreviousMonth}>&lt;</button>
+    <CalendarContainer>
+      <MonthSelector>
+        <FontAwesomeIcon icon={faChevronLeft} onClick={goToPreviousMonth} />
         <span>
           {`${currentDate.getFullYear()}.${String(currentDate.getMonth() + 1).padStart(2, '0')}`}
         </span>
-        <button onClick={goToNextMonth}>&gt;</button>
-      </div>
-      <div className="calendar-grid">
+        <FontAwesomeIcon icon={faChevronRight} onClick={goToNextMonth} />
+      </MonthSelector>
+      <CalendarGrid>
         {['일', '월', '화', '수', '목', '금', '토'].map(dayName => (
-          <div key={dayName} className="day-name">{dayName}</div>
+          <DayName key={dayName}>{dayName}</DayName>
         ))}
         {generateCalendar()}
-      </div>
-    </div>
+      </CalendarGrid>
+    </CalendarContainer>
   );
 }
+
+const CalendarContainer = styled.div`
+  background: white;
+  border-radius: 50px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  font-size: 25px;
+  width: 850px;
+  height: 800px;
+  margin: 100px auto 0;
+`;
+
+const MonthSelector = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 50px;
+`;
+
+const CalendarGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+`;
+
+const DayName = styled.div`
+  text-align: center;
+  font-weight: 900;
+  font-size: 45px;
+  padding: 20px 0;
+  margin-top: 30px;
+`;
+
+const Day = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 900;
+  font-size: 30px;
+  padding: 20px 0;
+
+  &.prev-month-day, &.next-month-day {
+    color: #cccccc;
+    font-weight: 800;
+  }
+
+  &.selected {
+    border-radius: 50%;
+    color: white;
+    background-color: #6100FF;
+    width: 70px;
+    height: 30px;
+    margin: 0 auto;
+  }
+`;
 
 export default CalendarPage;

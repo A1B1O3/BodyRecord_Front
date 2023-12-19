@@ -77,18 +77,7 @@ const ProfileModify = () => {
           />
         </FieldSet>
 
-        <FieldSet>
-          <TextLabel>운동목표 수정</TextLabel>
-          <SelectDropdown
-            value={exerciseGoal}
-            onChange={(e) => setExerciseGoal(e.target.value)}
-          >
-            <option value="" disabled>운동 목표를 선택해주세요.</option>
-            <option value="운동목표1번">운동목표1번</option>
-            <option value="운동목표2번">운동목표2번</option>
-          </SelectDropdown>
-        </FieldSet>
-
+     
         <MetricsContainer>
           <LeftMetric>
             <TextLabel>체중</TextLabel>
@@ -113,7 +102,7 @@ const ProfileModify = () => {
           </FieldSet>
 
         <ButtonSection>
-          <ModifyButton onClick={handleModifyClick}>수정 완료</ModifyButton>
+          <ModifyButton >수정 완료</ModifyButton>
         </ButtonSection>
       </FormContainer>
     </ProfileModifyContainer>
@@ -147,6 +136,7 @@ const ProfileImageContainer = styled.div`
   align-items: center;
   position: relative;
   cursor: pointer;
+  margin-top: 20px;
 `;
 
 const AddImageButton = styled.button`

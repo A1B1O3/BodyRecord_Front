@@ -35,7 +35,7 @@ function ChallengeList2() {
         <Link key={index} to ={ `/ChallengeDetail?index=${index}`}>
         <Box key={index}  background={`url("img/run${index}.png")`} 
         >
-                <p>{challenge.challengeTitle}</p>
+        <p>{challenge.challengeTitle}</p>
         </Box>
         </Link>
       ))}

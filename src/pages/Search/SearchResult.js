@@ -1,37 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserProfile from './UserProfile';
 import redSun from '../../asset/redsun.svg';
 import suncat from '../../asset/suncat.svg';
 import sundog from '../../asset/sundog.svg';
-import hammercurl from '../../asset/hammercurl.svg';
+import picture from '../../asset/picture.png';
 import TopBarS2 from '../../components/common/TopBarS2';
 import styled from 'styled-components';
 
 const SearchResult = () => {
-  const [apiUserPosts, setApiUserPosts] = useState([]);
+
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUserPosts = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/exercise/log');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setApiUserPosts(data);
-      } catch (error) {
-        console.error('Error fetching user posts:', error);
-      }
-    };
-
-    fetchUserPosts();
-  }, []);
-
-  const handleBack = () => {
-    navigate('/SearchMain');
-  };
 
   const staticUserPosts = [
     {
@@ -49,9 +29,9 @@ const SearchResult = () => {
       profileImage: sundog,
       content: (
         <img
-          src={hammercurl}
+          src={picture}
           alt="이미지"
-          style={{ maxWidth: '100%', maxHeight: '100%' }}
+          style={{ Width: '150px', height: '400px' }}
         />
       ),
     },
@@ -83,6 +63,7 @@ const SearchResult = () => {
     </StyledSearchResultContainer>
   );
 };
+
 const StyledSearchResultContainer = styled.div`
   width: 1000px;
   padding: 50px;
@@ -94,22 +75,22 @@ const ContentContainer = styled.div`
 `;
 
 const UserPost = styled.div`
-  width: 800px;
-  height: 500px;
+  width: 780px;
+  height: 550px; /* 높이를 늘렸습니다. */
   padding: 10px;
   border: none;
   border-radius: 30px;
   margin: 0 auto 10px;
-  margin-left: 30px;
+  margin-left: 100px;
   margin-top: 100px;
   margin-bottom: 50px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   flex-direction: column;
   align-items: flex-start;
-  font-size: 20px;
+  font-size: 40px; /* 글씨 크기를 크게 조정했습니다. */
 `;
 
 const UserProfileWrapper = styled.div`
@@ -119,8 +100,8 @@ const UserProfileWrapper = styled.div`
 `;
 
 const UserProfileImage = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   margin-right: 10px;
 `;
@@ -130,10 +111,9 @@ const Username = styled.div`
 `;
 
 const UserContent = styled.p`
-  font-size: 24px;
-  &:first-child {
-    margin-bottom: 3em;
-  }
+  font-size: 30px;
+  font-weight:bold;
+  margin-left: 80px;
 `;
 
 export default SearchResult;

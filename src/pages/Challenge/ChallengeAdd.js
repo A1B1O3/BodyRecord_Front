@@ -30,7 +30,7 @@ function ChallengeAdd() {
       console.log('데이터:', response.data);
     } catch (error) {
       console.error('에러:', error);
-      
+
     }
   };
     return (
@@ -69,8 +69,8 @@ function ChallengeAdd() {
                 cols={35}
                 placeholder={"챌린지 내용을 입력해주세요"}
                 maxLength = {25} />
-            <Button onClick={handleCreateChallenge}>
-                <Link to ="/Main">
+            <Button>
+                <Link to ="/challengeMain">
                     <Text1>
                     입력 완료
                     </Text1>

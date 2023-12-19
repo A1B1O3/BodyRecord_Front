@@ -19,12 +19,6 @@ const IconSVG = styled.svg`
 `;
 
 
-    const OPTIONS = [
-        { value: "1", name: "잘못된 챌린지 게시" },
-        { value: "2", name: "챌린지와 관계없는 내용" },
-        { value: "3", name: "장난식의 글 게시" },
-    ];
-
     const SelectBox = (props) => {
         const handleChange = (e) => {
      
@@ -48,7 +42,6 @@ const IconSVG = styled.svg`
     return (
         <PageWrap>
             <TopBar5/>
-        
             <ReportBox2>
                 <Write>
                 <img src = '/img/write.png' style={{marginRight:'20px'}} />
@@ -62,11 +55,13 @@ const IconSVG = styled.svg`
                 placeholder={"신고 내용을 입력해주세요"}
                 maxLength = {25} />
                 </ReportBox2>
-                <Button>
-                     <Text style={{textDecoration: 'none'}}>
-                    신고하기
-                    </Text>
-               </Button>
+                <Link to ='/ChallengeMain'>
+                    <Button>
+                        <Text style={{textDecoration: 'none'}}>
+                        신고하기
+                        </Text>
+                    </Button>
+                    </Link>
         </PageWrap>
         );
     }

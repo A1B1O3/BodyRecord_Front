@@ -18,6 +18,7 @@ function ChallengeDetail() {
     useEffect(() => {
       const fetchData = async () => {
         const queryParams = new URLSearchParams(window.location.search);
+       
         const indexFromQuery = queryParams.get('index');
         setIndex(indexFromQuery);
   

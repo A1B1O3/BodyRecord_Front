@@ -2,35 +2,42 @@ import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TopBarM9 from '../../components/common/TopBarM9';
 import styled from 'styled-components';
+import redSun from '../../asset/redsun.svg';
+import suncat from '../../asset/suncat.svg';
+import sundog from '../../asset/sundog.svg';
+import clock from '../../asset/clock.png';
+import exercise from '../../asset/exercise.png';
+import picture from '../../asset/picture.png';
+import sunrise from '../../asset/sunrise.png';
 
 const challengeData = [
   { 
     id: 1, 
     number: 7, 
     nickname: 'User7', 
-    profileImage: '../../asset/redsun.svg', 
-    image: '../../asset/hammercurl.svg' 
+    profileImage: redSun,
+    image: clock,
   },
   { 
     id: 2, 
     number: 6, 
     nickname: 'User6', 
-    profileImage: '../../asset/suncat.svg', 
-    image: '../../asset/hammercurl.svg' 
+    profileImage: suncat,
+    image: sunrise,
   },
   { 
     id: 3, 
     number: 5, 
     nickname: 'User5', 
-    profileImage: '../../asset/redsun.svg', 
-    image: '../../asset/hammercurl.svg' 
+    profileImage: sundog,
+    image: exercise,
   },
   { 
     id: 4, 
     number: 4, 
     nickname: 'User4', 
-    profileImage: '../../asset/suncat.svg', 
-    image: '../../asset/hammercurl.svg' 
+    profileImage: redSun,
+    image: picture,
   },
 ];
 
@@ -92,6 +99,7 @@ const ChallengeItemHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  margin-top: 70px;
 `;
 
 const ChallengeItemBody = styled.div`
@@ -101,8 +109,17 @@ const ChallengeItemBody = styled.div`
 `;
 
 const Number = styled.span`
-  font-size: 1.5rem;
-  margin-left: 50px;
+  font-size: 50px;
+  border: 1px solid lightgrey;
+  width: 50px;
+  height: 50px; // Added height to match the width for centering
+  display: flex; // Added for centering
+  align-items: center; // Added for vertical centering
+  justify-content: center; // Added for horizontal centering
+  background-color: lightgrey;
+  margin-right: 15px; // Adjusted margin to space out the elements
+  text-align: center; // Added for centering text
+  margin-left: 100px;
 `;
 
 const ProfileImage = styled.img`
@@ -110,29 +127,32 @@ const ProfileImage = styled.img`
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  margin-right: 15px; // Adjusted margin to space out the elements
 `;
 
 const Nickname = styled.span`
-  font-size: 1.5rem;
+  font-size: 35px;
+  font-weight: bold;
+  margin-right: 15px; // Adjusted margin to space out the elements
 `;
 
 const DeleteButton = styled.button`
   background-color: #6100FF;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 0.5rem 1rem;
-  margin-right: 150px;
+  margin-right: 100px;
+  font-size: 40px;
+  font-weight: bold;
 `;
 
 const ChallengeImage = styled.img`
-  width: 90%;
-  height: 300px;
+  width: 80%;
+  max-height: 500px; // Set a maximum height
+  height: auto; // Height will scale automatically
   object-fit: cover;
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 20px;
 `;
 
 export default ManageChallengeCertificate;

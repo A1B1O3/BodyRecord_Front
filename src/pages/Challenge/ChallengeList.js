@@ -25,8 +25,6 @@ function ChallengeList() {
       setSelectedButton(null);
     }
   };
-
-
     return (
      <PageWrap>
         <TopBar3/>
